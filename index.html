@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 HUB</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-gradient: linear-gradient(135deg, #2563eb, #7c3aed, #db2777);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            transition: var(--transition);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            color: var(--text-main);
+            background-color: var(--bg-primary);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .tab-btn.active {
+            border-bottom: 3px solid #3b82f6;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .lang-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: var(--transition);
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Main Content & Sections */
+        main {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tab 1: Home (Hero) */
+        .hero-section {
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+
+        .glitch-logo {
+            font-size: 5.5rem;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            position: relative;
+            animation: pulse 3s infinite alternate;
+            letter-spacing: 5px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(93, 63, 211, 0.2)); }
+            100% { transform: scale(1.03); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6)); }
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Tab 2: About Us */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--bg-secondary);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+        }
+
+        .service-card i {
+            font-size: 3rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Tab 3: Portfolio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .portfolio-img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.05);
+        }
+
+        .img-web { background: linear-gradient(135deg, #1e1b4b, #311042); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 4rem;}
+        .img-code { background: linear-gradient(135deg, #0f172a, #0284c7); display: flex; align-items: center; justify-content: center; color: #38bdf8; font-family: monospace; padding: 20px;}
+        .img-palette { background: linear-gradient(45deg, #f43f5e, #eab308, #10b981, #3b82f6, #6366f1); }
+
+        .portfolio-info {
+            padding: 1.5rem;
+        }
+
+        .portfolio-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Tab 4: Certificates & Experience */
+        .cert-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border-right: 4px solid #3b82f6;
+            box-shadow: var(--card-shadow);
+        }
+
+        html[dir="ltr"] .timeline-item {
+            border-right: none;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timeline-item p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Tab 5: Pricing Packages */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .price-card {
+            background-color: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .price-card.featured {
+            border: 2px solid #8b5cf6;
+            transform: scale(1.03);
+        }
+
+        .price-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .price-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: right;
+        }
+
+        html[dir="ltr"] .price-features {
+            text-align: left;
+        }
+
+        .price-features li {
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .price-features li i {
+            color: #10b981;
+        }
+
+        .order-btn {
+            width: 100%;
+            background: var(--bg-primary);
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .price-card.featured .order-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+        }
+
+        /* Fixed Bottom Controls & Social Submenu */
+        .bottom-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        html[dir="ltr"] .bottom-controls {
+            left: auto;
+            right: 2rem;
+        }
+
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .contact-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+        }
+
+        .contact-btn-expanded {
+            border-radius: 30px;
+            padding: 0 1.5rem;
+            width: auto;
+            gap: 0.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+        }
+
+        /* Floating Social Icons Submenu */
+        .social-submenu {
+            position: absolute;
+            bottom: 65px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(15px);
+            transition: var(--transition);
+        }
+
+        .social-submenu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .sm-whatsapp { background-color: #25D366; }
+        .sm-telegram { background-color: #0088cc; }
+        .sm-gmail { background-color: #db4437; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .glitch-logo {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">5 HUB</div>
+            <ul class="nav-tabs">
+                <li><button class="tab-btn active" onclick="switchTab(event, 'home')" id="defaultTab" data-i18n="nav-home">الرئيسية</button></li>
+                <li><button class="tab-btn" onclick="switchTab(event, 'about')" data-i18n="nav-about">عننا</button></li>
+                <li><button class="tab-btn" onclick="switchTab(event, 'portfolio')" data-i18n="nav-portfolio">مشاريعنا</button></li>
+                <li><button class="tab-btn" onclick="switchTab(event, 'experience')" data-i18n="nav-exp">خبراتنا</button></li>
+                <li><button class="tab-btn" onclick="switchTab(event, 'offers')" data-i18n="nav-offers">العروض</button></li>
+            </ul>
+            <button class="lang-btn" onclick="toggleLanguage()">English</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        
+        <!-- Tab 1: Home -->
+        <section id="home" class="tab-content active">
+            <div class="hero-section">
+                <h1 class="glitch-logo">5 HUB</h1>
+                <p class="hero-tagline" data-i18n="hero-text">نحن نصنع المستقبل الرقمي. حلول برمجية متكاملة وتصاميم تخطف الأنظار لتنقل أعمالك إلى مستويات جديدة تماماً.</p>
+            </div>
+        </section>
+
+        <!-- Tab 2: About Us -->
+        <section id="about" class="tab-content">
+            <div class="about-grid">
+                <div class="service-card">
+                    <i class="fa-solid fa-code"></i>
+                    <h3 data-i18n="srv-dev-title">برمجة المواقع والتطبيقات</h3>
+                    <p data-i18n="srv-dev-desc">نطور مواقع وتطبيقات سريعة، آمنة ومخصصة بالكامل بأحدث التقنيات العالمية لتناسب احتياجاتك.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-palette"></i>
+                    <h3 data-i18n="srv-design-title">التصاميم وتنسيق الألوان</h3>
+                    <p data-i18n="srv-design-desc">نبتكر هويات بصرية فريدة، وندرس تناسق الأشكال والألوان بدقة لخلق تجربة مستخدم مريحة وجذابة.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-sliders"></i>
+                    <h3 data-i18n="srv-manage-title">إدارة المواقع والصفحات</h3>
+                    <p data-i18n="srv-manage-desc">نتولى تشغيل ومراقبة وتحديث منصاتك الرقمية وصفحات التواصل لضمان تفاعل مستمر ونمو دائم لقاعدتك الجماهيرية.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: Portfolio -->
+        <section id="portfolio" class="tab-content">
+            <div class="portfolio-grid">
+                <!-- Item 1: Web Design -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img img-web">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 data-i18n="port-1-title">تصميم متجر إلكتروني حديث</h3>
+                        <p data-i18n="port-1-desc">واجهة مستخدم عصرية تعتمد على البساطة والسرعة مع تجربة تسوق سلسة.</p>
+                    </div>
+                </div>
+                <!-- Item 2: Code -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img img-code">
+                        <code style="text-align: left; direction: ltr; font-size: 0.75rem; display: block;">
+                            <span style="color: #ff79c6">const</span> team = <span style="color: #f1fa8c">"5 HUB"</span>;<br>
+                            <span style="color: #ff79c6">function</span> <span style="color: #50fa7b">createFuture</span>() {<br>
+                            &nbsp;&nbsp;return <span style="color: #f1fa8c">`Modern Solutions`</span>;<br>
+                            }<br>
+                            console.log(createFuture());
+                        </code>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 data-i18n="port-2-title">أكواد برمجية نظيفة</h3>
+                        <p data-i18n="port-2-desc">بنية برمجية متينة وقابلة للتطوير مكتوبة وفقاً لأعلى المعايير القياسية.</p>
+                    </div>
+                </div>
+                <!-- Item 3: Palette -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img img-palette"></div>
+                    <div class="portfolio-info">
+                        <h3 data-i18n="port-3-title">تنسيق وهندسة الألوان</h3>
+                        <p data-i18n="port-3-desc">اختيار وتنسيق لوحات ألوان جذابة تعكس الهوية الفريدة للمشروع وتجذب فئاتك المستهدفة.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: Certificates -->
+        <section id="experience" class="tab-content">
+            <div class="cert-container">
+                <div class="timeline-item">
+                    <h3><i class="fa-solid fa-ribbon"></i> <span data-i18n="exp-1-title">شهادات معتمدة دولياً</span></h3>
+                    <p data-i18n="exp-1-desc">فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX)، وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3><i class="fa-solid fa-briefcase"></i> <span data-i18n="exp-2-title">خبرة ميدانية واسعة</span></h3>
+                    <p data-i18n="exp-2-desc">شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة باحترافية وسرعة وكفاءة عالية.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 5: Offers -->
+        <section id="offers" class="tab-content">
+            <div class="pricing-grid">
+                <!-- Pack 1 -->
+                <div class="price-card">
+                    <div class="price-title" data-i18n="p1-title">باقة التصاميم</div>
+                    <div class="price-amount">300 <span>ج.م</span></div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f1">تصاميم جاهزة وعصرية</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f2">تنسيق ألوان احترافي</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f3">تسليم سريع</span></li>
+                    </ul>
+                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                </div>
+                <!-- Pack 2 -->
+                <div class="price-card">
+                    <div class="price-title" data-i18n="p2-title">باقة إدارة الصفحات</div>
+                    <div class="price-amount">1500 <span>ج.م</span></div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f1">إدارة كاملة لصفحاتك</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f2">صناعة وتدبير المحتوى</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f3">تفاعل وتنسيق يومي</span></li>
+                    </ul>
+                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                </div>
+                <!-- Pack 3 (Featured) -->
+                <div class="price-card featured">
+                    <div class="price-title" data-i18n="p3-title">باقة المواقع المتكاملة</div>
+                    <div class="price-amount">3000 <span>ج.م</span></div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f1">إنشاء موقع ويب كامل</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f2">تسويق أونلاين محترف</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f3">دعم فني وتنسيق مستمر</span></li>
+                    </ul>
+                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                </div>
+                <!-- Pack 4 -->
+                <div class="price-card">
+                    <div class="price-title" data-i18n="p4-title">باقة التطبيقات الذكية</div>
+                    <div class="price-amount">5000 <span>ج.م</span></div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f1">بناء تطبيق موبايل ذكي</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f2">تسويق إلكتروني موسع</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f3">تنسيق الشكل والأداء</span></li>
+                    </ul>
+                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                </div>
+                <!-- Pack 5 -->
+                <div class="price-card">
+                    <div class="price-title" data-i18n="p5-title">باقة الإدارة والتنسيق</div>
+                    <div class="price-amount">2000 <span>ج.م</span></div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f1">إدارة وتنسيق المنصات</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f2">تعديل الألوان والواجهات</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f3">تحديث الأنظمة والتطبيقات</span></li>
+                    </ul>
+                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Interface Controls -->
+    <div class="bottom-controls">
+        <div class="contact-wrapper">
+            <!-- Floating Social Submenu -->
+            <div class="social-submenu" id="socialMenu">
+                <!-- WhatsApp -->
+                <a href="https://wa.me/201556020133" target="_blank" class="social-link sm-whatsapp" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <!-- Telegram -->
+                <a href="https://t.me/+201556020133" target="_blank" class="social-link sm-telegram" title="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <!-- Gmail -->
+                <a href="mailto:05hub50@gmail.com" target="_blank" class="social-link sm-gmail" title="Gmail">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+            
+            <button class="control-btn contact-btn-expanded" onclick="toggleContactMenu()">
+                <i class="fa-solid fa-paper-plane"></i> <span data-i18n="contact-btn">تواصل معنا</span>
+            </button>
+        </div>
+        
+        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">
+            <i class="fa-solid fa-sun"></i>
+        </button>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Language Database
+        const translations = {
+            ar: {
+                "nav-home": "الرئيسية", "nav-about": "عننا", "nav-portfolio": "مشاريعنا", "nav-exp": "خبراتنا", "nav-offers": "العروض",
+                "hero-text": "نحن نصنع المستقبل الرقمي. حلول برمجية متكاملة وتصاميم تخطف الأنظار لتنقل أعمالك إلى مستويات جديدة تماماً.",
+                "srv-dev-title": "برمجة المواقع والتطبيقات", "srv-dev-desc": "نطور مواقع وتطبيقات سريعة، آمنة ومخصصة بالكامل بأحدث التقنيات العالمية لتناسب احتياجاتك.",
+                "srv-design-title": "التصاميم وتنسيق الألوان", "srv-design-desc": "نبتكر هويات بصرية فريدة، وندرس تناسق الأشكال والألوان بدقة لخلق تجربة مستخدم مريحة وجذابة.",
+                "srv-manage-title": "إدارة المواقع والصفحات", "srv-manage-desc": "نتولى تشغيل ومراقبة وتحديث منصاتك الرقمية وصفحات التواصل لضمان تفاعل مستمر ونمو دائم لقاعدتك الجماهيرية.",
+                "port-1-title": "تصميم متجر إلكتروني حديث", "port-1-desc": "واجهة مستخدم عصرية تعتمد على البساطة والسرعة مع تجربة تسوق سلسة.",
+                "port-2-title": "أكواد برمجية نظيفة", "port-2-desc": "بنية برمجية متينة وقابلة للتطوير مكتوبة وفقاً لأعلى المعايير القياسية.",
+                "port-3-title": "تنسيق وهندسة الألوان", "port-3-desc": "اختيار وتنسيق لوحات ألوان جذابة تعكس الهوية الفريدة للمشروع وتجذب فئاتك المستهدفة.",
+                "exp-1-title": "شهادات معتمدة دولياً", "exp-1-desc": "فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX)، وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.",
+                "exp-2-title": "خبرة ميدانية واسعة", "exp-2-desc": "شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة باحترافية وسرعة وكفاءة عالية.",
+                "p1-title": "باقة التصاميم", "p1-f1": "تصاميم جاهزة وعصرية", "p1-f2": "تنسيق ألوان احترافي", "p1-f3": "تسليم سريع",
+                "p2-title": "باقة إدارة الصفحات", "p2-f1": "إدارة كاملة لصفحاتك", "p2-f2": "صناعة وتدبير المحتوى", "p2-f3": "تفاعل وتنسيق يومي",
+                "p3-title": "باقة المواقع المتكاملة", "p3-f1": "إنشاء موقع ويب كامل", "p3-f2": "تسويق أونلاين محترف", "p3-f3": "دعم فني وتنسيق مستمر",
+                "p4-title": "باقة التطبيقات الذكية", "p4-f1": "بناء تطبيق موبايل ذكي", "p4-f2": "تسويق إلكتروني موسع", "p4-f3": "تنسيق الشكل والأداء",
+                "p5-title": "باقة الإدارة والتنسيق", "p5-f1": "إدارة وتنسيق المنصات", "p5-f2": "تعديل الألوان والواجهات", "p5-f3": "تحديث الأنظمة والتطبيقات",
+                "order": "اطلب الآن", "contact-btn": "تواصل معنا"
+            },
+            en: {
+                "nav-home": "Home", "nav-about": "About Us", "nav-portfolio": "Projects", "nav-exp": "Experience", "nav-offers": "Offers",
+                "hero-text": "We craft the digital future. Comprehensive software solutions and eye-catching designs to elevate your business.",
+                "srv-dev-title": "Web & App Development", "srv-dev-desc": "We build fast, secure, and custom websites/apps using cutting-edge technologies.",
+                "srv-design-title": "Design & Color Styling", "srv-design-desc": "We create unique visual identities and perfectly match layouts and palettes for a stunning UX.",
+                "srv-manage-title": "Web & Page Management", "srv-manage-desc": "We run, monitor, and update your digital platforms and social pages for continuous growth.",
+                "port-1-title": "Modern E-Commerce Design", "port-1-desc": "A sleek, minimal user interface tailored for a smooth, high-speed shopping experience.",
+                "port-2-title": "Clean Code Architecture", "port-2-desc": "Robust, highly scalable software structures built to the highest industry standards.",
+                "port-3-title": "Color Palette Engineering", "port-3-desc": "Meticulously picked color harmony reflecting the unique vibe of your branding.",
+                "exp-1-title": "Certified Professionals", "exp-1-desc": "Our team holds accredited certificates in software engineering, UI/UX design, and platform administration.",
+                "exp-2-title": "Deep Field Experience", "exp-2-desc": "Years of hands-on expertise building production-ready apps and tackling high-level tech challenges.",
+                "p1-title": "Design Package", "p1-f1": "Ready & Modern Designs", "p1-f2": "Professional Palettes", "p1-f3": "Fast Delivery",
+                "p2-title": "Page Management", "p2-f1": "Full Account Handling", "p2-f2": "Content Creation", "p2-f3": "Daily Engagement",
+                "p3-title": "Full Website Plan", "p3-f1": "Complete Web Development", "p3-f2": "Online Marketing Pack", "p3-f3": "Continuous Support",
+                "p4-title": "Smart App Plan", "p4-f1": "Intelligent Mobile App", "p4-f2": "Extended E-Marketing", "p4-f3": "Performance Optimization",
+                "p5-title": "Management & Styling", "p5-f1": "Platform Admin Services", "p5-f2": "UI Makeovers & Colors", "p5-f3": "System & App Updates",
+                "order": "Order Now", "contact-btn": "Contact Us"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        // Tab Switching Logic
+        function switchTab(event, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            // Close contact menu when navigating away
+            document.getElementById('socialMenu').classList.remove('open');
+        }
+
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById('themeBtn').querySelector('i');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                themeBtn.className = 'fa-solid fa-sun';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeBtn.className = 'fa-solid fa-moon';
+            }
+        }
+
+        // Language Translation Logic
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const html = document.documentElement;
+            const langBtn = document.querySelector('.lang-btn');
+            
+            if (currentLang === 'en') {
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                langBtn.textContent = 'العربية';
+            } else {
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                langBtn.textContent = 'English';
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        // Contact Floating Menu Controls
+        function toggleContactMenu() {
+            const menu = document.getElementById('socialMenu');
+            menu.classList.toggle('open');
+        }
+
+        function openContactMenu() {
+            const menu = document.getElementById('socialMenu');
+            menu.classList.add('open');
+            // scroll smoothly down to controls if on mobile
+            document.querySelector('.bottom-controls').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Close menu on clicking outside
+        document.addEventListener('click', function(event) {
+            const wrapper = document.querySelector('.contact-wrapper');
+            const menu = document.getElementById('socialMenu');
+            // Check if click was outside the contact wrapper and price cards order buttons
+            if (!wrapper.contains(event.target) && !event.target.classList.contains('order-btn')) {
+                menu.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
