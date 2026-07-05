@@ -50,6 +50,12 @@
             flex-direction: column;
         }
 
+        /* Interactive Click/Active Effect globally */
+        .clickable-effect:active, button:active, .price-card:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease !important;
+        }
+
         /* Header & Navigation */
         header {
             background-color: var(--bg-secondary);
@@ -68,6 +74,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
+            gap: 1.5rem;
         }
 
         .logo {
@@ -78,35 +85,64 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
             letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .logo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* Horizontally Scrollable Tabs Navigation */
+        .tabs-wrapper {
+            flex: 1;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            display: flex;
+            justify-content: center;
+        }
+        .tabs-wrapper::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-tabs {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             list-style: none;
+            padding: 0.2rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-wrapper {
+                justify-content: flex-start;
+                width: 100%;
+            }
         }
 
         .tab-btn {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1.4rem;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: var(--transition);
+            display: inline-block;
         }
 
         .tab-btn:hover, .tab-btn.active {
             color: var(--text-main);
             background-color: var(--bg-primary);
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+            transform: translateY(-2px);
         }
 
         .tab-btn.active {
             border-bottom: 3px solid #3b82f6;
-            border-radius: 8px 8px 0 0;
+            background: linear-gradient(rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.02));
         }
 
         .lang-btn {
@@ -119,10 +155,11 @@
             font-weight: 700;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             transition: var(--transition);
+            flex-shrink: 0;
         }
 
         .lang-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.05);
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
         }
 
@@ -137,16 +174,16 @@
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s ease forwards;
+            animation: slideFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideFadeIn {
+            from { opacity: 0; transform: scale(0.98) translateY(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         /* Tab 1: Home (Hero) */
@@ -165,11 +202,13 @@
             position: relative;
             animation: pulse 3s infinite alternate;
             letter-spacing: 5px;
+            display: inline-block;
+            cursor: pointer;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(93, 63, 211, 0.2)); }
-            100% { transform: scale(1.03); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6)); }
+            100% { transform: scale(1.04) rotate(1deg); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6)); }
         }
 
         .hero-tagline {
@@ -178,6 +217,10 @@
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.8;
+            transition: var(--transition);
+        }
+        .hero-tagline:hover {
+            color: var(--text-main);
         }
 
         /* Tab 2: About Us */
@@ -196,10 +239,11 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
             border-color: #3b82f6;
         }
 
@@ -209,6 +253,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1.5rem;
+            transition: transform 0.5s ease;
+        }
+        .service-card:hover i {
+            transform: rotateY(360deg);
         }
 
         .service-card h3 {
@@ -235,6 +283,12 @@
             overflow: hidden;
             box-shadow: var(--card-shadow);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
         }
 
         .portfolio-img {
@@ -280,11 +334,21 @@
             margin-bottom: 1.5rem;
             border-right: 4px solid #3b82f6;
             box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .timeline-item:hover {
+            transform: translateX(-5px);
+            border-right-color: #ec4899;
         }
 
         html[dir="ltr"] .timeline-item {
             border-right: none;
             border-left: 4px solid #3b82f6;
+        }
+        html[dir="ltr"] .timeline-item:hover {
+            transform: translateX(5px);
+            border-left-color: #ec4899;
         }
 
         .timeline-item h3 {
@@ -316,6 +380,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .price-card.featured {
@@ -324,7 +389,8 @@
         }
 
         .price-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .price-title {
@@ -338,6 +404,11 @@
             font-weight: 900;
             color: var(--text-main);
             margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        .price-card:hover .price-amount {
+            color: #3b82f6;
+            transform: scale(1.1);
         }
 
         .price-amount span {
@@ -380,19 +451,103 @@
             transition: var(--transition);
         }
 
-        .price-card.featured .order-btn {
+        .price-card.featured .order-btn, .order-btn:hover {
             background: var(--accent-gradient);
             color: white;
             border: none;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
 
-        /* Fixed Bottom Controls & Social Submenu */
+        /* Floating Action Button (FAB) System */
+        .fab-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 1002;
+        }
+
+        html[dir="ltr"] .fab-container {
+            right: auto;
+            left: 2rem;
+        }
+
+        /* Main Floating Button */
+        .fab-main {
+            width: 55px;
+            height: 55px;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .fab-main i {
+            transition: transform 0.4s ease;
+        }
+
+        /* Rotate icon on click */
+        .fab-container.active .fab-main i {
+            transform: rotate(135deg);
+        }
+
+        /* Pop-up Social Contacts Buttons */
+        .fab-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Show Sub-buttons on active class */
+        .fab-container.active .fab-buttons {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+
+        .fab-sub {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .fab-sub:hover {
+            transform: scale(1.1);
+        }
+
+        .fab-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .fab-telegram { background: linear-gradient(135deg, #0088cc, #006699); }
+        .fab-gmail { background: linear-gradient(135deg, #db4437, #b23124); }
+
+        /* Left Positioned Controls (Theme Mode Trigger) */
         .bottom-controls {
             position: fixed;
             bottom: 2rem;
             left: 2rem;
-            display: flex;
-            gap: 1rem;
             z-index: 999;
         }
 
@@ -419,79 +574,16 @@
         }
 
         .control-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(15deg);
             background-color: var(--accent);
             color: white;
         }
 
-        .contact-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-        }
-
-        .contact-btn-expanded {
-            border-radius: 30px;
-            padding: 0 1.5rem;
-            width: auto;
-            gap: 0.5rem;
-            font-weight: 700;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-        }
-
-        /* Floating Social Icons Submenu */
-        .social-submenu {
-            position: absolute;
-            bottom: 65px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(15px);
-            transition: var(--transition);
-        }
-
-        .social-submenu.open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .social-link {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            text-decoration: none;
-        }
-
-        .social-link:hover {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .sm-whatsapp { background-color: #25D366; }
-        .sm-telegram { background-color: #0088cc; }
-        .sm-gmail { background-color: #db4437; }
-
-        /* Responsive Design */
+        /* Responsive Design Framework */
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
-                gap: 1rem;
-            }
-            .nav-tabs {
-                flex-wrap: wrap;
-                justify-content: center;
+                padding: 1rem;
             }
             .glitch-logo {
                 font-size: 3.5rem;
@@ -504,17 +596,42 @@
     <!-- Header Navigation -->
     <header>
         <div class="nav-container">
-            <div class="logo">5 HUB</div>
-            <ul class="nav-tabs">
-                <li><button class="tab-btn active" onclick="switchTab(event, 'home')" id="defaultTab" data-i18n="nav-home">الرئيسية</button></li>
-                <li><button class="tab-btn" onclick="switchTab(event, 'about')" data-i18n="nav-about">عننا</button></li>
-                <li><button class="tab-btn" onclick="switchTab(event, 'portfolio')" data-i18n="nav-portfolio">مشاريعنا</button></li>
-                <li><button class="tab-btn" onclick="switchTab(event, 'experience')" data-i18n="nav-exp">خبراتنا</button></li>
-                <li><button class="tab-btn" onclick="switchTab(event, 'offers')" data-i18n="nav-offers">العروض</button></li>
-            </ul>
-            <button class="lang-btn" onclick="toggleLanguage()">English</button>
+            <div class="logo clickable-effect">5 HUB</div>
+            <!-- Horizontal slider tabs container -->
+            <div class="tabs-wrapper">
+                <ul class="nav-tabs">
+                    <li><button class="tab-btn active" onclick="switchTab(event, 'home')" id="defaultTab" data-i18n="nav-home">الرئيسية</button></li>
+                    <li><button class="tab-btn" onclick="switchTab(event, 'about')" data-i18n="nav-about">عننا</button></li>
+                    <li><button class="tab-btn" onclick="switchTab(event, 'portfolio')" data-i18n="nav-portfolio">مشاريعنا</button></li>
+                    <li><button class="tab-btn" onclick="switchTab(event, 'experience')" data-i18n="nav-exp">خبراتنا</button></li>
+                    <li><button class="tab-btn" onclick="switchTab(event, 'offers')" data-i18n="nav-offers">العروض</button></li>
+                </ul>
+            </div>
+            <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">English</button>
         </div>
     </header>
+
+    <!-- Floating Contact Button System -->
+    <div class="fab-container" id="fabContainer">
+        <button class="fab-main" onclick="toggleFab()">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+        
+        <div class="fab-buttons">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/201556020133" target="_blank" class="fab-sub fab-whatsapp" title="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <!-- Telegram -->
+            <a href="https://t.me/+201556020133" target="_blank" class="fab-sub fab-telegram" title="Telegram">
+                <i class="fa-brands fa-telegram"></i>
+            </a>
+            <!-- Gmail -->
+            <a href="mailto:05hub50@gmail.com" target="_blank" class="fab-sub fab-gmail" title="Gmail">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        </div>
+    </div>
 
     <!-- Main Content Area -->
     <main>
@@ -532,17 +649,17 @@
             <div class="about-grid">
                 <div class="service-card">
                     <i class="fa-solid fa-code"></i>
-                    <h3 data-i18n="srv-dev-title">برمجة المواقع والتطبيقات</h3>
+                    <h3 class="clickable-effect" data-i18n="srv-dev-title">برمجة المواقع والتطبيقات</h3>
                     <p data-i18n="srv-dev-desc">نطور مواقع وتطبيقات سريعة، آمنة ومخصصة بالكامل بأحدث التقنيات العالمية لتناسب احتياجاتك.</p>
                 </div>
                 <div class="service-card">
                     <i class="fa-solid fa-palette"></i>
-                    <h3 data-i18n="srv-design-title">التصاميم وتنسيق الألوان</h3>
+                    <h3 class="clickable-effect" data-i18n="srv-design-title">التصاميم وتنسيق الألوان</h3>
                     <p data-i18n="srv-design-desc">نبتكر هويات بصرية فريدة، وندرس تناسق الأشكال والألوان بدقة لخلق تجربة مستخدم مريحة وجذابة.</p>
                 </div>
                 <div class="service-card">
                     <i class="fa-solid fa-sliders"></i>
-                    <h3 data-i18n="srv-manage-title">إدارة المواقع والصفحات</h3>
+                    <h3 class="clickable-effect" data-i18n="srv-manage-title">إدارة المواقع والصفحات</h3>
                     <p data-i18n="srv-manage-desc">نتولى تشغيل ومراقبة وتحديث منصاتك الرقمية وصفحات التواصل لضمان تفاعل مستمر ونمو دائم لقاعدتك الجماهيرية.</p>
                 </div>
             </div>
@@ -551,17 +668,15 @@
         <!-- Tab 3: Portfolio -->
         <section id="portfolio" class="tab-content">
             <div class="portfolio-grid">
-                <!-- Item 1: Web Design -->
                 <div class="portfolio-item">
                     <div class="portfolio-img img-web">
                         <i class="fa-solid fa-laptop-code"></i>
                     </div>
                     <div class="portfolio-info">
-                        <h3 data-i18n="port-1-title">تصميم متجر إلكتروني حديث</h3>
+                        <h3 class="clickable-effect" data-i18n="port-1-title">تصميم متجر إلكتروني حديث</h3>
                         <p data-i18n="port-1-desc">واجهة مستخدم عصرية تعتمد على البساطة والسرعة مع تجربة تسوق سلسة.</p>
                     </div>
                 </div>
-                <!-- Item 2: Code -->
                 <div class="portfolio-item">
                     <div class="portfolio-img img-code">
                         <code style="text-align: left; direction: ltr; font-size: 0.75rem; display: block;">
@@ -573,15 +688,14 @@
                         </code>
                     </div>
                     <div class="portfolio-info">
-                        <h3 data-i18n="port-2-title">أكواد برمجية نظيفة</h3>
+                        <h3 class="clickable-effect" data-i18n="port-2-title">أكواد برمجية نظيفة</h3>
                         <p data-i18n="port-2-desc">بنية برمجية متينة وقابلة للتطوير مكتوبة وفقاً لأعلى المعايير القياسية.</p>
                     </div>
                 </div>
-                <!-- Item 3: Palette -->
                 <div class="portfolio-item">
                     <div class="portfolio-img img-palette"></div>
                     <div class="portfolio-info">
-                        <h3 data-i18n="port-3-title">تنسيق وهندسة الألوان</h3>
+                        <h3 class="clickable-effect" data-i18n="port-3-title">تنسيق وهندسة الألوان</h3>
                         <p data-i18n="port-3-desc">اختيار وتنسيق لوحات ألوان جذابة تعكس الهوية الفريدة للمشروع وتجذب فئاتك المستهدفة.</p>
                     </div>
                 </div>
@@ -592,11 +706,11 @@
         <section id="experience" class="tab-content">
             <div class="cert-container">
                 <div class="timeline-item">
-                    <h3><i class="fa-solid fa-ribbon"></i> <span data-i18n="exp-1-title">شهادات معتمدة دولياً</span></h3>
-                    <p data-i18n="exp-1-desc">فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX)، وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.</p>
+                    <h3 class="clickable-effect"><i class="fa-solid fa-ribbon"></i> <span data-i18n="exp-1-title">شهادات معتمدة دولياً</span></h3>
+                    <p data-i18n="exp-1-desc">فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX), وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.</p>
                 </div>
                 <div class="timeline-item">
-                    <h3><i class="fa-solid fa-briefcase"></i> <span data-i18n="exp-2-title">خبرة ميدانية واسعة</span></h3>
+                    <h3 class="clickable-effect"><i class="fa-solid fa-briefcase"></i> <span data-i18n="exp-2-title">خبرة ميدانية واسعة</span></h3>
                     <p data-i18n="exp-2-desc">شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة باحترافية وسرعة وكفاءة عالية.</p>
                 </div>
             </div>
@@ -605,96 +719,69 @@
         <!-- Tab 5: Offers -->
         <section id="offers" class="tab-content">
             <div class="pricing-grid">
-                <!-- Pack 1 -->
                 <div class="price-card">
                     <div class="price-title" data-i18n="p1-title">باقة التصاميم</div>
-                    <div class="price-amount">300 <span>ج.م</span></div>
+                    <div class="price-amount" data-i18n="p1-price">700 <span>ج.م</span></div>
                     <ul class="price-features">
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f1">تصاميم جاهزة وعصرية</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f2">تنسيق ألوان احترافي</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f3">تسليم سريع</span></li>
                     </ul>
-                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                    <button class="order-btn" onclick="redirectToWhatsApp('باقة التصاميم - Design Package')" data-i18n="order">اطلب الآن</button>
                 </div>
-                <!-- Pack 2 -->
                 <div class="price-card">
                     <div class="price-title" data-i18n="p2-title">باقة إدارة الصفحات</div>
-                    <div class="price-amount">1500 <span>ج.م</span></div>
+                    <div class="price-amount" data-i18n="p2-price">1500 <span>ج.م</span></div>
                     <ul class="price-features">
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f1">إدارة كاملة لصفحاتك</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f2">صناعة وتدبير المحتوى</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f3">تفاعل وتنسيق يومي</span></li>
                     </ul>
-                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                    <button class="order-btn" onclick="redirectToWhatsApp('باقة إدارة الصفحات - Management Package')" data-i18n="order">اطلب الآن</button>
                 </div>
-                <!-- Pack 3 (Featured) -->
                 <div class="price-card featured">
                     <div class="price-title" data-i18n="p3-title">باقة المواقع المتكاملة</div>
-                    <div class="price-amount">3000 <span>ج.م</span></div>
+                    <div class="price-amount" data-i18n="p3-price">7500 <span>ج.م</span></div>
                     <ul class="price-features">
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f1">إنشاء موقع ويب كامل</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f2">تسويق أونلاين محترف</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f3">دعم فني وتنسيق مستمر</span></li>
                     </ul>
-                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                    <button class="order-btn" onclick="redirectToWhatsApp('باقة المواقع المتكاملة - Web Package')" data-i18n="order">اطلب الآن</button>
                 </div>
-                <!-- Pack 4 -->
                 <div class="price-card">
                     <div class="price-title" data-i18n="p4-title">باقة التطبيقات الذكية</div>
-                    <div class="price-amount">5000 <span>ج.م</span></div>
+                    <div class="price-amount" data-i18n="p4-price">3000 <span>ج.م</span></div>
                     <ul class="price-features">
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f1">بناء تطبيق موبايل ذكي</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f2">تسويق إلكتروني موسع</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f3">تنسيق الشكل والأداء</span></li>
                     </ul>
-                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                    <button class="order-btn" onclick="redirectToWhatsApp('باقة التطبيقات الذكية - App Package')" data-i18n="order">اطلب الآن</button>
                 </div>
-                <!-- Pack 5 -->
                 <div class="price-card">
                     <div class="price-title" data-i18n="p5-title">باقة الإدارة والتنسيق</div>
-                    <div class="price-amount">2000 <span>ج.م</span></div>
+                    <div class="price-amount" data-i18n="p5-price">2000 <span>ج.م</span></div>
                     <ul class="price-features">
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f1">إدارة وتنسيق المنصات</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f2">تعديل الألوان والواجهات</span></li>
                         <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f3">تحديث الأنظمة والتطبيقات</span></li>
                     </ul>
-                    <button class="order-btn" onclick="openContactMenu()" data-i18n="order">اطلب الآن</button>
+                    <button class="order-btn" onclick="redirectToWhatsApp('باقة الإدارة والتنسيق - Full Operations Package')" data-i18n="order">اطلب الآن</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Bottom Interface Controls -->
+    <!-- Bottom Theme Control Switch -->
     <div class="bottom-controls">
-        <div class="contact-wrapper">
-            <!-- Floating Social Submenu -->
-            <div class="social-submenu" id="socialMenu">
-                <!-- WhatsApp -->
-                <a href="https://wa.me/201556020133" target="_blank" class="social-link sm-whatsapp" title="WhatsApp">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-                <!-- Telegram -->
-                <a href="https://t.me/+201556020133" target="_blank" class="social-link sm-telegram" title="Telegram">
-                    <i class="fa-brands fa-telegram"></i>
-                </a>
-                <!-- Gmail -->
-                <a href="mailto:05hub50@gmail.com" target="_blank" class="social-link sm-gmail" title="Gmail">
-                    <i class="fa-solid fa-envelope"></i>
-                </a>
-            </div>
-            
-            <button class="control-btn contact-btn-expanded" onclick="toggleContactMenu()">
-                <i class="fa-solid fa-paper-plane"></i> <span data-i18n="contact-btn">تواصل معنا</span>
-            </button>
-        </div>
-        
         <button class="control-btn" onclick="toggleTheme()" id="themeBtn">
             <i class="fa-solid fa-sun"></i>
         </button>
     </div>
 
-    <!-- JavaScript logic -->
+    <!-- JavaScript logical script -->
     <script>
         // Language Database
         const translations = {
@@ -708,13 +795,13 @@
                 "port-2-title": "أكواد برمجية نظيفة", "port-2-desc": "بنية برمجية متينة وقابلة للتطوير مكتوبة وفقاً لأعلى المعايير القياسية.",
                 "port-3-title": "تنسيق وهندسة الألوان", "port-3-desc": "اختيار وتنسيق لوحات ألوان جذابة تعكس الهوية الفريدة للمشروع وتجذب فئاتك المستهدفة.",
                 "exp-1-title": "شهادات معتمدة دولياً", "exp-1-desc": "فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX)، وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.",
-                "exp-2-title": "خبرة ميدانية واسعة", "exp-2-desc": "شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة باحترافية وسرعة وكفاءة عالية.",
-                "p1-title": "باقة التصاميم", "p1-f1": "تصاميم جاهزة وعصرية", "p1-f2": "تنسيق ألوان احترافي", "p1-f3": "تسليم سريع",
-                "p2-title": "باقة إدارة الصفحات", "p2-f1": "إدارة كاملة لصفحاتك", "p2-f2": "صناعة وتدبير المحتوى", "p2-f3": "تفاعل وتنسيق يومي",
-                "p3-title": "باقة المواقع المتكاملة", "p3-f1": "إنشاء موقع ويب كامل", "p3-f2": "تسويق أونلاين محترف", "p3-f3": "دعم فني وتنسيق مستمر",
-                "p4-title": "باقة التطبيقات الذكية", "p4-f1": "بناء تطبيق موبايل ذكي", "p4-f2": "تسويق إلكتروني موسع", "p4-f3": "تنسيق الشكل والأداء",
-                "p5-title": "باقة الإدارة والتنسيق", "p5-f1": "إدارة وتنسيق المنصات", "p5-f2": "تعديل الألوان والواجهات", "p5-f3": "تحديث الأنظمة والتطبيقات",
-                "order": "اطلب الآن", "contact-btn": "تواصل معنا"
+                "exp-2-title": "خبرة ميدانية واسعة", "exp-2-desc": "شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة بااحترافية وسرعة وكفاءة عالية.",
+                "p1-title": "باقة التصاميم", "p1-price": "0 <span>ج.م</span>", "p1-f1": "تصاميم جاهزة وعصرية", "p1-f2": "تنسيق ألوان احترافي", "p1-f3": "تسليم سريع",
+                "p2-title": "باقة إدارة الصفحات", "p2-price": "1000 <span>ج.م</span>", "p2-f1": "إدارة كاملة لصفحاتك", "p2-f2": "صناعة وتدبير المحتوى", "p2-f3": "تفاعل وتنسيق يومي",
+                "p3-title": "باقة المواقع المتكاملة", "p3-price": "2500 <span>ج.م</span>", "p3-f1": "إنشاء موقع ويب كامل", "p3-f2": "تسويق أونلاين محترف", "p3-f3": "دعم فني وتنسيق مستمر",
+                "p4-title": "باقة التطبيقات الذكية", "p4-price": "4500 <span>ج.م</span>", "p4-f1": "بناء تطبيق موبايل ذكي", "p4-f2": "تسويق إلكتروني موسع", "p4-f3": "تنسيق الشكل والأداء",
+                "p5-title": "باقة الإدارة والتنسيق", "p5-price": "1500 <span>ج.م</span>", "p5-f1": "إدارة وتنسيق المنصات", "p5-f2": "تعديل الألوان والواجهات", "p5-f3": "تحديث الأنظمة والتطبيقات",
+                "order": "اطلب الآن"
             },
             en: {
                 "nav-home": "Home", "nav-about": "About Us", "nav-portfolio": "Projects", "nav-exp": "Experience", "nav-offers": "Offers",
@@ -726,13 +813,13 @@
                 "port-2-title": "Clean Code Architecture", "port-2-desc": "Robust, highly scalable software structures built to the highest industry standards.",
                 "port-3-title": "Color Palette Engineering", "port-3-desc": "Meticulously picked color harmony reflecting the unique vibe of your branding.",
                 "exp-1-title": "Certified Professionals", "exp-1-desc": "Our team holds accredited certificates in software engineering, UI/UX design, and platform administration.",
-                "exp-2-title": "Deep Field Experience", "exp-2-desc": "Years of hands-on expertise building production-ready apps and tackling high-level tech challenges.",
-                "p1-title": "Design Package", "p1-f1": "Ready & Modern Designs", "p1-f2": "Professional Palettes", "p1-f3": "Fast Delivery",
-                "p2-title": "Page Management", "p2-f1": "Full Account Handling", "p2-f2": "Content Creation", "p2-f3": "Daily Engagement",
-                "p3-title": "Full Website Plan", "p3-f1": "Complete Web Development", "p3-f2": "Online Marketing Pack", "p3-f3": "Continuous Support",
-                "p4-title": "Smart App Plan", "p4-f1": "Intelligent Mobile App", "p4-f2": "Extended E-Marketing", "p4-f3": "Performance Optimization",
-                "p5-title": "Management & Styling", "p5-f1": "Platform Admin Services", "p5-f2": "UI Makeovers & Colors", "p5-f3": "System & App Updates",
-                "order": "Order Now", "contact-btn": "Contact Us"
+                "exp-2-title": "Deep Field Experience", "exp-2-desc": "Our passion is backed by years of hands-on experience designing diverse digital ecosystems and solving complex technical problems.",
+                "p1-title": "Design Package", "p1-price": "700 <span>EGP</span>", "p1-f1": "Modern ready-made templates", "p1-f2": "Professional color matching", "p1-f3": "Express delivery",
+                "p2-title": "Page Management Package", "p2-price": "1500 <span>EGP</span>", "p2-f1": "Full management of your handles", "p2-f2": "Content creation & curation", "p2-f3": "Daily engagement & alignment",
+                "p3-title": "Integrated Web Package", "p3-price": "7500 <span>EGP</span>", "p3-f1": "Full website development", "p3-f2": "Professional digital marketing", "p3-f3": "Dedicated technical support",
+                "p4-title": "Smart Apps Package", "p4-price": "3000 <span>EGP</span>", "p4-f1": "Custom mobile app development", "p4-f2": "Extended target marketing", "p4-f3": "Performance optimization",
+                "p5-title": "Operations & Support Package", "p5-price": "2000 <span>EGP</span>", "p5-f1": "Platform updates & moderation", "p5-f2": "UI refreshes & layout tweaks", "p5-f3": "App maintenance & updates",
+                "order": "Order Now"
             }
         };
 
@@ -748,71 +835,68 @@
             
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
-
-            // Close contact menu when navigating away
-            document.getElementById('socialMenu').classList.remove('open');
         }
 
-        // Theme Toggle Logic
-        function toggleTheme() {
-            const body = document.body;
-            const themeBtn = document.getElementById('themeBtn').querySelector('i');
-            
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                themeBtn.className = 'fa-solid fa-sun';
-            } else {
-                body.setAttribute('data-theme', 'light');
-                themeBtn.className = 'fa-solid fa-moon';
-            }
-        }
-
-        // Language Translation Logic
+        // Language Translation Switcher
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            const html = document.documentElement;
-            const langBtn = document.querySelector('.lang-btn');
+            const htmlTag = document.documentElement;
+            const langBtn = document.getElementById('langBtn');
             
             if (currentLang === 'en') {
-                html.setAttribute('lang', 'en');
-                html.setAttribute('dir', 'ltr');
+                htmlTag.setAttribute('lang', 'en');
+                htmlTag.setAttribute('dir', 'ltr');
                 langBtn.textContent = 'العربية';
             } else {
-                html.setAttribute('lang', 'ar');
-                html.setAttribute('dir', 'rtl');
+                htmlTag.setAttribute('lang', 'ar');
+                htmlTag.setAttribute('dir', 'rtl');
                 langBtn.textContent = 'English';
             }
 
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
+            // Update DOM Elements
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
                 if (translations[currentLang][key]) {
-                    element.textContent = translations[currentLang][key];
+                    el.innerHTML = translations[currentLang][key];
                 }
             });
         }
 
-        // Contact Floating Menu Controls
-        function toggleContactMenu() {
-            const menu = document.getElementById('socialMenu');
-            menu.classList.toggle('open');
+        // Light / Dark Theme Toggler
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            
+            const themeBtn = document.getElementById('themeBtn');
+            if (targetTheme === 'light') {
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            } else {
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            }
         }
 
-        function openContactMenu() {
-            const menu = document.getElementById('socialMenu');
-            menu.classList.add('open');
-            // scroll smoothly down to controls if on mobile
-            document.querySelector('.bottom-controls').scrollIntoView({ behavior: 'smooth' });
+        // Toggle Floating Action Button
+        function toggleFab() {
+            const fabContainer = document.getElementById('fabContainer');
+            fabContainer.classList.toggle('active');
         }
 
-        // Close menu on clicking outside
+        // Close FAB menu when clicking outside
         document.addEventListener('click', function(event) {
-            const wrapper = document.querySelector('.contact-wrapper');
-            const menu = document.getElementById('socialMenu');
-            // Check if click was outside the contact wrapper and price cards order buttons
-            if (!wrapper.contains(event.target) && !event.target.classList.contains('order-btn')) {
-                menu.classList.remove('open');
+            const fabContainer = document.getElementById('fabContainer');
+            if (!fabContainer.contains(event.target)) {
+                fabContainer.classList.remove('active');
             }
         });
+
+        // WhatsApp Direct Checkout Link
+        function redirectToWhatsApp(packageName) {
+            const phone = "201130063325";
+            const text = encodeURIComponent(`مرحباً 5 HUB، أود الاستفسار عن/طلب: [${packageName}]`);
+            window.open(`https://wa.me/${201556020133}?text=${text}`, '_blank');
+        }
     </script>
 </body>
 </html>
