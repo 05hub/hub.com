@@ -1,902 +1,863 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 HUB</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>5HUB | Official Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
     <style>
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #3b82f6;
-            --accent-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .active-tab { background-color: #2563eb !important; color: white !important; transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3); }
+        .tab-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { transition: background-color 0.5s, color 0.5s; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        .top-controls {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
         }
-
-        [data-theme="light"] {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --accent: #2563eb;
-            --accent-gradient: linear-gradient(135deg, #2563eb, #7c3aed, #db2777);
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        .dark .top-controls {
+            background: rgba(15, 23, 42, 0.72);
+            border-color: rgba(51, 65, 85, 0.9);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.45);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', 'Poppins', sans-serif;
+        .control-btn {
+            transition: all 0.25s ease;
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            background: rgba(255, 255, 255, 0.8);
+            color: #0f172a;
+            font-weight: 800;
         }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            transition: var(--transition);
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        .dark .control-btn {
+            background: rgba(30, 41, 59, 0.95);
+            color: #f8fafc;
+            border-color: rgba(71, 85, 105, 0.9);
         }
-
-        /* Interactive Click/Active Effect globally */
-        .clickable-effect:active, button:active, .price-card:active {
-            transform: scale(0.95) !important;
-            transition: transform 0.1s ease !important;
+        .control-btn:hover {
+            transform: translateY(-1px) scale(1.04);
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
         }
-
-        /* Header & Navigation */
-        header {
-            background-color: var(--bg-secondary);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            gap: 1.5rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .logo:hover {
-            transform: scale(1.05) rotate(-2deg);
-        }
-
-        /* Horizontally Scrollable Tabs Navigation */
-        .tabs-wrapper {
-            flex: 1;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            display: flex;
-            justify-content: center;
-        }
-        .tabs-wrapper::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 0.5rem;
-            list-style: none;
-            padding: 0.2rem;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 768px) {
-            .tabs-wrapper {
-                justify-content: flex-start;
-                width: 100%;
-            }
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 0.6rem 1.4rem;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: var(--transition);
-            display: inline-block;
-        }
-
-        .tab-btn:hover, .tab-btn.active {
-            color: var(--text-main);
-            background-color: var(--bg-primary);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
-            transform: translateY(-2px);
-        }
-
-        .tab-btn.active {
-            border-bottom: 3px solid #3b82f6;
-            background: linear-gradient(rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.02));
-        }
-
-        .lang-btn {
-            background: var(--accent-gradient);
+        .contact-btn {
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
             color: white;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            transition: var(--transition);
-            flex-shrink: 0;
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.32);
         }
-
-        .lang-btn:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        .contact-panel {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
         }
-
-        /* Main Content & Sections */
-        main {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-            flex: 1;
+        .contact-panel.open {
+            max-height: 300px;
+            opacity: 1;
+            margin-top: 0.75rem;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        .contact-link {
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 18px;
+            font-size: 1.35rem;
+            font-weight: 900;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
         }
-
-        .tab-content {
-            display: none;
-            animation: slideFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .tab-content.active {
+        .contact-link svg {
+            width: 24px;
+            height: 24px;
             display: block;
         }
-
-        @keyframes slideFadeIn {
-            from { opacity: 0; transform: scale(0.98) translateY(15px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        .contact-link:hover {
+            transform: translateY(-2px) scale(1.03);
         }
-
-        /* Tab 1: Home (Hero) */
-        .hero-section {
-            text-align: center;
-            padding: 5rem 1rem;
-        }
-
-        .glitch-logo {
-            font-size: 5.5rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            position: relative;
-            animation: pulse 3s infinite alternate;
-            letter-spacing: 5px;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(93, 63, 211, 0.2)); }
-            100% { transform: scale(1.04) rotate(1deg); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6)); }
-        }
-
-        .hero-tagline {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
-            transition: var(--transition);
-        }
-        .hero-tagline:hover {
-            color: var(--text-main);
-        }
-
-        /* Tab 2: About Us */
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .service-card {
-            background-color: var(--bg-secondary);
-            padding: 2.5rem 2rem;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: #3b82f6;
-        }
-
-        .service-card i {
-            font-size: 3rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            transition: transform 0.5s ease;
-        }
-        .service-card:hover i {
-            transform: rotateY(360deg);
-        }
-
-        .service-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-        }
-
-        .service-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Tab 3: Portfolio */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .portfolio-item {
-            background-color: var(--bg-secondary);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .portfolio-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .portfolio-img {
-            height: 220px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .portfolio-item:hover .portfolio-img {
-            transform: scale(1.05);
-        }
-
-        .img-web { background: linear-gradient(135deg, #1e1b4b, #311042); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 4rem;}
-        .img-code { background: linear-gradient(135deg, #0f172a, #0284c7); display: flex; align-items: center; justify-content: center; color: #38bdf8; font-family: monospace; padding: 20px;}
-        .img-palette { background: linear-gradient(45deg, #f43f5e, #eab308, #10b981, #3b82f6, #6366f1); }
-
-        .portfolio-info {
-            padding: 1.5rem;
-        }
-
-        .portfolio-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .portfolio-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Tab 4: Certificates & Experience */
-        .cert-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .timeline-item {
-            background-color: var(--bg-secondary);
-            padding: 2rem;
-            border-radius: 16px;
-            margin-bottom: 1.5rem;
-            border-right: 4px solid #3b82f6;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        .timeline-item:hover {
-            transform: translateX(-5px);
-            border-right-color: #ec4899;
-        }
-
-        html[dir="ltr"] .timeline-item {
-            border-right: none;
-            border-left: 4px solid #3b82f6;
-        }
-        html[dir="ltr"] .timeline-item:hover {
-            transform: translateX(5px);
-            border-left-color: #ec4899;
-        }
-
-        .timeline-item h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .timeline-item p {
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        /* Tab 5: Pricing Packages */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .price-card {
-            background-color: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .price-card.featured {
-            border: 2px solid #8b5cf6;
-            transform: scale(1.03);
-        }
-
-        .price-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .price-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .price-amount {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--text-main);
-            margin-bottom: 1.5rem;
-            transition: var(--transition);
-        }
-        .price-card:hover .price-amount {
-            color: #3b82f6;
-            transform: scale(1.1);
-        }
-
-        .price-amount span {
-            font-size: 1rem;
-            color: var(--text-muted);
-        }
-
-        .price-features {
-            list-style: none;
-            margin-bottom: 2rem;
-            text-align: right;
-        }
-
-        html[dir="ltr"] .price-features {
-            text-align: left;
-        }
-
-        .price-features li {
-            margin-bottom: 0.8rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .price-features li i {
-            color: #10b981;
-        }
-
-        .order-btn {
-            width: 100%;
-            background: var(--bg-primary);
-            color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 0.8rem;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .price-card.featured .order-btn, .order-btn:hover {
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        /* Floating Action Button (FAB) System */
-        .fab-container {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-            gap: 0.8rem;
-            z-index: 1002;
-        }
-
-        html[dir="ltr"] .fab-container {
-            right: auto;
-            left: 2rem;
-        }
-
-        /* Main Floating Button */
-        .fab-main {
-            width: 55px;
-            height: 55px;
-            background: var(--accent-gradient);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-        }
-
-        .fab-main i {
-            transition: transform 0.4s ease;
-        }
-
-        /* Rotate icon on click */
-        .fab-container.active .fab-main i {
-            transform: rotate(135deg);
-        }
-
-        /* Pop-up Social Contacts Buttons */
-        .fab-buttons {
+        .projects-gallery {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(20px) scale(0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            gap: 14px;
+            margin-top: 12px;
+            text-align: start;
         }
-
-        /* Show Sub-buttons on active class */
-        .fab-container.active .fab-buttons {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0) scale(1);
+        .about-layout {
+            display: grid;
+            gap: 12px;
+            text-align: start;
         }
-
-        .fab-sub {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            font-size: 1.3rem;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .fab-sub:hover {
-            transform: scale(1.1);
-        }
-
-        .fab-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
-        .fab-telegram { background: linear-gradient(135deg, #0088cc, #006699); }
-        .fab-gmail { background: linear-gradient(135deg, #db4437, #b23124); }
-
-        /* Left Positioned Controls (Theme Mode Trigger) */
-        .bottom-controls {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            z-index: 999;
-        }
-
-        html[dir="ltr"] .bottom-controls {
-            left: auto;
-            right: 2rem;
-        }
-
-        .control-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            border: none;
-            background-color: var(--bg-secondary);
-            color: var(--text-main);
-            box-shadow: var(--card-shadow);
+        .about-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.88));
+            border: 1px solid rgba(51, 65, 85, 0.9);
+            border-radius: 20px;
+            padding: 14px;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
             cursor: pointer;
+        }
+        .about-card:hover,
+        .about-card:active,
+        .about-card:focus-visible {
+            transform: scale(1.03) translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.35), 0 0 18px rgba(56, 189, 248, 0.35), 0 14px 30px rgba(15, 23, 42, 0.16);
+        }
+        .about-card:hover .about-title,
+        .about-card:active .about-title,
+        .about-card:focus-visible .about-title {
+            color: #2563eb;
+        }
+        .dark .about-card {
+            background: rgba(15, 23, 42, 0.72);
+            border-color: rgba(51, 65, 85, 0.9);
+        }
+        .dark .about-card:hover .about-title,
+        .dark .about-card:active .about-title,
+        .dark .about-card:focus-visible .about-title {
+            color: #93c5fd;
+        }
+        .about-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(139, 92, 246, 0.24));
+            color: #1d4ed8;
+            font-size: 0.72rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .dark .about-badge {
+            color: #93c5fd;
+        }
+        .about-title {
+            font-size: 1.06rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+        .about-text {
+            font-size: 0.88rem;
+            line-height: 1.75;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+        .experience-layout {
+            display: grid;
+            gap: 12px;
+            text-align: start;
+        }
+        .experience-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.88));
+            border: 1px solid rgba(51, 65, 85, 0.9);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+        }
+        .experience-card:hover,
+        .experience-card:active,
+        .experience-card:focus-visible {
+            transform: scale(1.03) translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.35), 0 0 18px rgba(56, 189, 248, 0.35), 0 14px 30px rgba(15, 23, 42, 0.16);
+        }
+        .experience-card:hover .experience-title,
+        .experience-card:active .experience-title,
+        .experience-card:focus-visible .experience-title {
+            color: #2563eb;
+        }
+        .dark .experience-card {
+            background: rgba(15, 23, 42, 0.72);
+            border-color: rgba(51, 65, 85, 0.9);
+        }
+        .dark .experience-card:hover .experience-title,
+        .dark .experience-card:active .experience-title,
+        .dark .experience-card:focus-visible .experience-title {
+            color: #93c5fd;
+        }
+        .experience-badge {
+            font-size: 0.72rem;
+            font-weight: 900;
+            color: #1d4ed8;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(139, 92, 246, 0.24));
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .dark .experience-badge {
+            color: #93c5fd;
+        }
+        .experience-title {
+            font-size: 1.12rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+        .experience-text {
+            font-size: 0.94rem;
+            line-height: 1.9;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+        .experience-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(139, 92, 246, 0.24));
+            border-radius: 16px;
+            padding: 10px;
+            text-align: center;
+        }
+        .stat-box strong {
+            display: block;
+            font-size: 1.05rem;
+            color: #ffffff;
+        }
+        .stat-box span {
+            font-size: 0.75rem;
+            color: #e2e8f0;
+        }
+        .offers-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            text-align: start;
+            align-items: stretch;
+        }
+        .offer-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(241,245,249,0.88));
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 290px;
+        }
+        .offer-card::before {
+            content: "";
+            position: absolute;
+            inset: auto -20px -20px auto;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.22), transparent 70%);
+            pointer-events: none;
+        }
+        .offer-card:hover,
+        .offer-card:active,
+        .offer-card:focus-visible {
+            transform: translateY(-4px) rotate(-0.3deg);
+            box-shadow: 0 18px 38px rgba(37, 99, 235, 0.18);
+        }
+        .dark .offer-card {
+            background: linear-gradient(135deg, rgba(15,23,42,0.92), rgba(30,41,59,0.88));
+            border-color: rgba(51, 65, 85, 0.9);
+        }
+        .offer-head {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
-
-        .control-btn:hover {
-            transform: scale(1.1) rotate(15deg);
-            background-color: var(--accent);
+        .offer-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+        }
+        .offer-package {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(139, 92, 246, 0.42));
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+        }
+        .offer-title {
+            font-size: 1.12rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            line-height: 1.5;
+            color: #ffffff;
+        }
+        .offer-text {
+            font-size: 0.9rem;
+            line-height: 1.9;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+        .offer-price {
+            margin-top: 12px;
+            font-size: 1.18rem;
+            font-weight: 900;
+            color: #bfdbfe;
+        }
+        .offer-btn {
+            margin-top: 14px;
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
             color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 14px;
+            font-size: 0.86rem;
+            font-weight: 900;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        /* Responsive Design Framework */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
+        .offer-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.34);
+        }
+        .project-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.88));
+            border: 1px solid rgba(51, 65, 85, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+            cursor: pointer;
+            text-align: start;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.35), 0 0 18px rgba(56, 189, 248, 0.35), 0 10px 24px rgba(15, 23, 42, 0.12);
+        }
+        .dark .project-card {
+            background: rgba(15, 23, 42, 0.72);
+            border-color: rgba(51, 65, 85, 0.9);
+        }
+        .project-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+        .project-meta {
+            padding: 12px;
+        }
+        .project-meta h3 {
+            font-size: 0.95rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+        .project-meta p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+        .project-overlay {
+            display: none;
+        }
+        .project-card.open .project-overlay {
+            display: none;
+        }
+        .hero-title {
+            position: relative;
+            font-size: clamp(3.5rem, 9vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, #60a5fa, #2563eb, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
+            filter: drop-shadow(0 6px 18px rgba(37, 99, 235, 0.2));
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% {
+                transform: scale(1.01);
+                filter: drop-shadow(0 0 0 rgba(96, 165, 250, 0)) drop-shadow(0 6px 18px rgba(37, 99, 235, 0.2));
+            }
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 18px rgba(168, 85, 247, 0.4)) drop-shadow(0 6px 18px rgba(37, 99, 235, 0.2));
+            }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 1rem; }
+            .hero-title {
+                font-size: clamp(2.7rem, 12vw, 4rem);
+                letter-spacing: 0.04em;
+            }
+            #page-content {
+                font-size: 1rem;
+                min-height: 160px;
                 padding: 1rem;
             }
-            .glitch-logo {
-                font-size: 3.5rem;
+        }
+        @media (min-width: 768px) {
+            #page-content {
+                padding: 1.5rem;
             }
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
+<body class="bg-white dark:bg-slate-950 text-gray-900 dark:text-white min-h-screen flex flex-col items-center pt-4 sm:pt-10 px-3 sm:px-4">
 
-    <!-- Header Navigation -->
-    <header>
-        <div class="nav-container">
-            <div class="logo clickable-effect">5 HUB</div>
-            <!-- Horizontal slider tabs container -->
-            <div class="tabs-wrapper">
-                <ul class="nav-tabs">
-                    <li><button class="tab-btn active" onclick="switchTab(event, 'home')" id="defaultTab" data-i18n="nav-home">الرئيسية</button></li>
-                    <li><button class="tab-btn" onclick="switchTab(event, 'about')" data-i18n="nav-about">عننا</button></li>
-                    <li><button class="tab-btn" onclick="switchTab(event, 'portfolio')" data-i18n="nav-portfolio">مشاريعنا</button></li>
-                    <li><button class="tab-btn" onclick="switchTab(event, 'experience')" data-i18n="nav-exp">خبراتنا</button></li>
-                    <li><button class="tab-btn" onclick="switchTab(event, 'offers')" data-i18n="nav-offers">العروض</button></li>
-                </ul>
-            </div>
-            <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">English</button>
-        </div>
-    </header>
-
-    <!-- Floating Contact Button System -->
-    <div class="fab-container" id="fabContainer">
-        <button class="fab-main" onclick="toggleFab()">
-            <i class="fa-solid fa-comments"></i>
-        </button>
-        
-        <div class="fab-buttons">
-            <!-- WhatsApp -->
-            <a href="https://wa.me/201556020133" target="_blank" class="fab-sub fab-whatsapp" title="WhatsApp">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <!-- Telegram -->
-            <a href="https://t.me/+201556020133" target="_blank" class="fab-sub fab-telegram" title="Telegram">
-                <i class="fa-brands fa-telegram"></i>
-            </a>
-            <!-- Gmail -->
-            <a href="mailto:05hub50@gmail.com" target="_blank" class="fab-sub fab-gmail" title="Gmail">
-                <i class="fa-solid fa-envelope"></i>
-            </a>
+    <div class="fixed top-4 left-4 sm:top-5 sm:left-5 z-50">
+        <div class="top-controls flex items-center gap-2 rounded-full p-2">
+            <button id="lang-toggle" class="control-btn px-3 py-1.5 rounded-full text-sm">EN</button>
+            <button id="theme-toggle" class="control-btn p-2 rounded-full text-lg leading-none">🌙</button>
         </div>
     </div>
 
-    <!-- Main Content Area -->
-    <main>
-        
-        <!-- Tab 1: Home -->
-        <section id="home" class="tab-content active">
-            <div class="hero-section">
-                <h1 class="glitch-logo">5 HUB</h1>
-                <p class="hero-tagline" data-i18n="hero-text">نحن نصنع المستقبل الرقمي. حلول برمجية متكاملة وتصاميم تخطف الأنظار لتنقل أعمالك إلى مستويات جديدة تماماً.</p>
+    <div class="fixed bottom-5 left-4 sm:bottom-6 sm:left-5 z-50">
+        <button id="contact-toggle" class="contact-btn px-4 py-3 rounded-full font-bold text-sm shadow-lg">تواصل معنا</button>
+        <div id="contact-panel" class="contact-panel bg-white/90 dark:bg-slate-900/90 rounded-2xl p-3 border border-gray-200 dark:border-gray-700 shadow-2xl backdrop-blur-md w-72">
+            <div class="contact-grid">
+                <a href="https://wa.me/201130063325" target="_blank" aria-label="واتساب" class="contact-link bg-green-500/15 text-green-600 dark:text-green-300">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.06 0C5.48 0 .1 5.37.1 12.02c0 2.12.56 4.18 1.62 5.99L0 24l6.13-1.6a11.98 11.98 0 0 0 5.93 1.51h.01c6.58 0 11.96-5.38 11.96-12.03 0-3.21-1.25-6.23-3.51-8.4ZM12.06 21.8c-1.9 0-3.78-.5-5.42-1.45l-.39-.24-3.64.95 1-3.54-.25-.39A9.8 9.8 0 0 1 2.2 12c0-5.42 4.43-9.84 9.86-9.84 2.63 0 5.1 1.02 6.97 2.88a9.8 9.8 0 0 1 2.89 6.96c0 5.42-4.43 9.84-9.86 9.84Zm5.41-7.37c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.19.3-.74.97-.91 1.17-.17.2-.34.22-.64.07-.3-.15-1.27-.47-2.42-1.49-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.34.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.52-.08-.15-.67-1.62-.92-2.21-.24-.58-.48-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.38-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.08.15.2 2.09 3.19 5.07 4.48.71.31 1.26.49 1.69.63.71.23 1.35.2 1.86.12.57-.09 1.76-.72 2-1.42.24-.7.24-1.3.17-1.43-.07-.12-.27-.18-.57-.33Z"/></svg>
+                </a>
+                <a href="https://t.me/+201130063325" target="_blank" aria-label="تيليجرام" class="contact-link bg-sky-500/15 text-sky-600 dark:text-sky-300">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.99 2.01a9.99 9.99 0 1 0 0 19.98 9.99 9.99 0 0 0 0-19.98Zm4.92 6.78-1.75 8.23c-.13.57-.47.71-.95.44l-2.63-1.95-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.69 4.89-4.41c.21-.19-.05-.3-.34-.11l-6.06 3.83-2.61-.82c-.57-.18-.58-.57.12-.84l10.26-3.96c.48-.18.89.11.74.83Z"/></svg>
+                </a>
+                <a href="tel:+201556020133" aria-label="اتصال" class="contact-link bg-rose-500/15 text-rose-600 dark:text-rose-300">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.24 1.01l-2.21 2.21Z"/></svg>
+                </a>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <!-- Tab 2: About Us -->
-        <section id="about" class="tab-content">
-            <div class="about-grid">
-                <div class="service-card">
-                    <i class="fa-solid fa-code"></i>
-                    <h3 class="clickable-effect" data-i18n="srv-dev-title">برمجة المواقع والتطبيقات</h3>
-                    <p data-i18n="srv-dev-desc">نطور مواقع وتطبيقات سريعة، آمنة ومخصصة بالكامل بأحدث التقنيات العالمية لتناسب احتياجاتك.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fa-solid fa-palette"></i>
-                    <h3 class="clickable-effect" data-i18n="srv-design-title">التصاميم وتنسيق الألوان</h3>
-                    <p data-i18n="srv-design-desc">نبتكر هويات بصرية فريدة، وندرس تناسق الأشكال والألوان بدقة لخلق تجربة مستخدم مريحة وجذابة.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fa-solid fa-sliders"></i>
-                    <h3 class="clickable-effect" data-i18n="srv-manage-title">إدارة المواقع والصفحات</h3>
-                    <p data-i18n="srv-manage-desc">نتولى تشغيل ومراقبة وتحديث منصاتك الرقمية وصفحات التواصل لضمان تفاعل مستمر ونمو دائم لقاعدتك الجماهيرية.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 3: Portfolio -->
-        <section id="portfolio" class="tab-content">
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="portfolio-img img-web">
-                        <i class="fa-solid fa-laptop-code"></i>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3 class="clickable-effect" data-i18n="port-1-title">تصميم متجر إلكتروني حديث</h3>
-                        <p data-i18n="port-1-desc">واجهة مستخدم عصرية تعتمد على البساطة والسرعة مع تجربة تسوق سلسة.</p>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-img img-code">
-                        <code style="text-align: left; direction: ltr; font-size: 0.75rem; display: block;">
-                            <span style="color: #ff79c6">const</span> team = <span style="color: #f1fa8c">"5 HUB"</span>;<br>
-                            <span style="color: #ff79c6">function</span> <span style="color: #50fa7b">createFuture</span>() {<br>
-                            &nbsp;&nbsp;return <span style="color: #f1fa8c">`Modern Solutions`</span>;<br>
-                            }<br>
-                            console.log(createFuture());
-                        </code>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3 class="clickable-effect" data-i18n="port-2-title">أكواد برمجية نظيفة</h3>
-                        <p data-i18n="port-2-desc">بنية برمجية متينة وقابلة للتطوير مكتوبة وفقاً لأعلى المعايير القياسية.</p>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-img img-palette"></div>
-                    <div class="portfolio-info">
-                        <h3 class="clickable-effect" data-i18n="port-3-title">تنسيق وهندسة الألوان</h3>
-                        <p data-i18n="port-3-desc">اختيار وتنسيق لوحات ألوان جذابة تعكس الهوية الفريدة للمشروع وتجذب فئاتك المستهدفة.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 4: Certificates -->
-        <section id="experience" class="tab-content">
-            <div class="cert-container">
-                <div class="timeline-item">
-                    <h3 class="clickable-effect"><i class="fa-solid fa-ribbon"></i> <span data-i18n="exp-1-title">شهادات معتمدة دولياً</span></h3>
-                    <p data-i18n="exp-1-desc">فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX), وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.</p>
-                </div>
-                <div class="timeline-item">
-                    <h3 class="clickable-effect"><i class="fa-solid fa-briefcase"></i> <span data-i18n="exp-2-title">خبرة ميدانية واسعة</span></h3>
-                    <p data-i18n="exp-2-desc">شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة باحترافية وسرعة وكفاءة عالية.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 5: Offers -->
-        <section id="offers" class="tab-content">
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <div class="price-title" data-i18n="p1-title">باقة التصاميم</div>
-                    <div class="price-amount" data-i18n="p1-price">700 <span>ج.م</span></div>
-                    <ul class="price-features">
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f1">تصاميم جاهزة وعصرية</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f2">تنسيق ألوان احترافي</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p1-f3">تسليم سريع</span></li>
-                    </ul>
-                    <button class="order-btn" onclick="redirectToWhatsApp('باقة التصاميم - Design Package')" data-i18n="order">اطلب الآن</button>
-                </div>
-                <div class="price-card">
-                    <div class="price-title" data-i18n="p2-title">باقة إدارة الصفحات</div>
-                    <div class="price-amount" data-i18n="p2-price">1500 <span>ج.م</span></div>
-                    <ul class="price-features">
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f1">إدارة كاملة لصفحاتك</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f2">صناعة وتدبير المحتوى</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p2-f3">تفاعل وتنسيق يومي</span></li>
-                    </ul>
-                    <button class="order-btn" onclick="redirectToWhatsApp('باقة إدارة الصفحات - Management Package')" data-i18n="order">اطلب الآن</button>
-                </div>
-                <div class="price-card featured">
-                    <div class="price-title" data-i18n="p3-title">باقة المواقع المتكاملة</div>
-                    <div class="price-amount" data-i18n="p3-price">7500 <span>ج.م</span></div>
-                    <ul class="price-features">
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f1">إنشاء موقع ويب كامل</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f2">تسويق أونلاين محترف</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p3-f3">دعم فني وتنسيق مستمر</span></li>
-                    </ul>
-                    <button class="order-btn" onclick="redirectToWhatsApp('باقة المواقع المتكاملة - Web Package')" data-i18n="order">اطلب الآن</button>
-                </div>
-                <div class="price-card">
-                    <div class="price-title" data-i18n="p4-title">باقة التطبيقات الذكية</div>
-                    <div class="price-amount" data-i18n="p4-price">3000 <span>ج.م</span></div>
-                    <ul class="price-features">
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f1">بناء تطبيق موبايل ذكي</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f2">تسويق إلكتروني موسع</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p4-f3">تنسيق الشكل والأداء</span></li>
-                    </ul>
-                    <button class="order-btn" onclick="redirectToWhatsApp('باقة التطبيقات الذكية - App Package')" data-i18n="order">اطلب الآن</button>
-                </div>
-                <div class="price-card">
-                    <div class="price-title" data-i18n="p5-title">باقة الإدارة والتنسيق</div>
-                    <div class="price-amount" data-i18n="p5-price">2000 <span>ج.م</span></div>
-                    <ul class="price-features">
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f1">إدارة وتنسيق المنصات</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f2">تعديل الألوان والواجهات</span></li>
-                        <li><i class="fa-solid fa-check"></i> <span data-i18n="p5-f3">تحديث الأنظمة والتطبيقات</span></li>
-                    </ul>
-                    <button class="order-btn" onclick="redirectToWhatsApp('باقة الإدارة والتنسيق - Full Operations Package')" data-i18n="order">اطلب الآن</button>
-                </div>
-            </div>
-        </section>
-
+    <main class="max-w-5xl mx-auto w-full flex-grow text-center mt-6 sm:mt-10 pb-6">
+        <h1 id="hero-title" class="hero-title mb-6 sm:mb-8">5HUB</h1>
+        <div id="page-content" class="w-full max-w-full text-start text-lg sm:text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed p-4 sm:p-6 bg-white/80 dark:bg-slate-900/80 rounded-[28px] border border-slate-200 dark:border-slate-700 shadow-[0_20px_55px_rgba(15,23,42,0.12)] backdrop-blur-md min-h-[160px] sm:min-h-[220px]"></div>
     </main>
 
-    <!-- Bottom Theme Control Switch -->
-    <div class="bottom-controls">
-        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">
-            <i class="fa-solid fa-sun"></i>
-        </button>
-    </div>
+    <nav class="p-3 sm:p-6 w-full flex justify-center sticky bottom-0 z-40">
+        <div class="bg-white/80 dark:bg-gray-800/80 p-2 rounded-2xl flex flex-wrap justify-center gap-2 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-2xl overflow-x-auto max-w-full">
+            <button data-key="home" data-ar="الرئيسية" data-en="Home" class="tab-btn active-tab px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-bold text-sm">الرئيسية</button>
+            <button data-key="about" data-ar="عننا" data-en="About" class="tab-btn px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-bold text-sm">عننا</button>
+            <button data-key="projects" data-ar="مشاريعنا" data-en="Projects" class="tab-btn px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-bold text-sm">مشاريعنا</button>
+            <button data-key="experience" data-ar="خبراتنا" data-en="Experience" class="tab-btn px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-bold text-sm">خبراتنا</button>
+            <button data-key="offers" data-ar="العروض" data-en="Offers" class="tab-btn px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-bold text-sm">العروض</button>
+        </div>
+    </nav>
 
-    <!-- JavaScript logical script -->
     <script>
-        // Language Database
-        const translations = {
-            ar: {
-                "nav-home": "الرئيسية", "nav-about": "عننا", "nav-portfolio": "مشاريعنا", "nav-exp": "خبراتنا", "nav-offers": "العروض",
-                "hero-text": "نحن نصنع المستقبل الرقمي. حلول برمجية متكاملة وتصاميم تخطف الأنظار لتنقل أعمالك إلى مستويات جديدة تماماً.",
-                "srv-dev-title": "برمجة المواقع والتطبيقات", "srv-dev-desc": "نطور مواقع وتطبيقات سريعة، آمنة ومخصصة بالكامل بأحدث التقنيات العالمية لتناسب احتياجاتك.",
-                "srv-design-title": "التصاميم وتنسيق الألوان", "srv-design-desc": "نبتكر هويات بصرية فريدة، وندرس تناسق الأشكال والألوان بدقة لخلق تجربة مستخدم مريحة وجذابة.",
-                "srv-manage-title": "إدارة المواقع والصفحات", "srv-manage-desc": "نتولى تشغيل ومراقبة وتحديث منصاتك الرقمية وصفحات التواصل لضمان تفاعل مستمر ونمو دائم لقاعدتك الجماهيرية.",
-                "port-1-title": "تصميم متجر إلكتروني حديث", "port-1-desc": "واجهة مستخدم عصرية تعتمد على البساطة والسرعة مع تجربة تسوق سلسة.",
-                "port-2-title": "أكواد برمجية نظيفة", "port-2-desc": "بنية برمجية متينة وقابلة للتطوير مكتوبة وفقاً لأعلى المعايير القياسية.",
-                "port-3-title": "تنسيق وهندسة الألوان", "port-3-desc": "اختيار وتنسيق لوحات ألوان جذابة تعكس الهوية الفريدة للمشروع وتجذب فئاتك المستهدفة.",
-                "exp-1-title": "شهادات معتمدة دولياً", "exp-1-desc": "فريقنا حاصل على شهادات اعتماد تخصصية في مجالات هندسة البرمجيات، تصميم واجهات المستخدم (UI/UX)، وإدارة المنصات الرقمية من كبرى المؤسسات التكنولوجية.",
-                "exp-2-title": "خبرة ميدانية واسعة", "exp-2-desc": "شغفنا مدعوم بسنوات من الخبرة العملية في تصميم وتطوير المشاريع البرمجية المتنوعة، وحل المشكلات التقنية المعقدة بااحترافية وسرعة وكفاءة عالية.",
-                "p1-title": "باقة التصاميم", "p1-price": "0 <span>ج.م</span>", "p1-f1": "تصاميم جاهزة وعصرية", "p1-f2": "تنسيق ألوان احترافي", "p1-f3": "تسليم سريع",
-                "p2-title": "باقة إدارة الصفحات", "p2-price": "1000 <span>ج.م</span>", "p2-f1": "إدارة كاملة لصفحاتك", "p2-f2": "صناعة وتدبير المحتوى", "p2-f3": "تفاعل وتنسيق يومي",
-                "p3-title": "باقة المواقع المتكاملة", "p3-price": "2500 <span>ج.م</span>", "p3-f1": "إنشاء موقع ويب كامل", "p3-f2": "تسويق أونلاين محترف", "p3-f3": "دعم فني وتنسيق مستمر",
-                "p4-title": "باقة التطبيقات الذكية", "p4-price": "4500 <span>ج.م</span>", "p4-f1": "بناء تطبيق موبايل ذكي", "p4-f2": "تسويق إلكتروني موسع", "p4-f3": "تنسيق الشكل والأداء",
-                "p5-title": "باقة الإدارة والتنسيق", "p5-price": "1500 <span>ج.م</span>", "p5-f1": "إدارة وتنسيق المنصات", "p5-f2": "تعديل الألوان والواجهات", "p5-f3": "تحديث الأنظمة والتطبيقات",
-                "order": "اطلب الآن"
-            },
-            en: {
-                "nav-home": "Home", "nav-about": "About Us", "nav-portfolio": "Projects", "nav-exp": "Experience", "nav-offers": "Offers",
-                "hero-text": "We craft the digital future. Comprehensive software solutions and eye-catching designs to elevate your business.",
-                "srv-dev-title": "Web & App Development", "srv-dev-desc": "We build fast, secure, and custom websites/apps using cutting-edge technologies.",
-                "srv-design-title": "Design & Color Styling", "srv-design-desc": "We create unique visual identities and perfectly match layouts and palettes for a stunning UX.",
-                "srv-manage-title": "Web & Page Management", "srv-manage-desc": "We run, monitor, and update your digital platforms and social pages for continuous growth.",
-                "port-1-title": "Modern E-Commerce Design", "port-1-desc": "A sleek, minimal user interface tailored for a smooth, high-speed shopping experience.",
-                "port-2-title": "Clean Code Architecture", "port-2-desc": "Robust, highly scalable software structures built to the highest industry standards.",
-                "port-3-title": "Color Palette Engineering", "port-3-desc": "Meticulously picked color harmony reflecting the unique vibe of your branding.",
-                "exp-1-title": "Certified Professionals", "exp-1-desc": "Our team holds accredited certificates in software engineering, UI/UX design, and platform administration.",
-                "exp-2-title": "Deep Field Experience", "exp-2-desc": "Our passion is backed by years of hands-on experience designing diverse digital ecosystems and solving complex technical problems.",
-                "p1-title": "Design Package", "p1-price": "700 <span>EGP</span>", "p1-f1": "Modern ready-made templates", "p1-f2": "Professional color matching", "p1-f3": "Express delivery",
-                "p2-title": "Page Management Package", "p2-price": "1500 <span>EGP</span>", "p2-f1": "Full management of your handles", "p2-f2": "Content creation & curation", "p2-f3": "Daily engagement & alignment",
-                "p3-title": "Integrated Web Package", "p3-price": "7500 <span>EGP</span>", "p3-f1": "Full website development", "p3-f2": "Professional digital marketing", "p3-f3": "Dedicated technical support",
-                "p4-title": "Smart Apps Package", "p4-price": "3000 <span>EGP</span>", "p4-f1": "Custom mobile app development", "p4-f2": "Extended target marketing", "p4-f3": "Performance optimization",
-                "p5-title": "Operations & Support Package", "p5-price": "2000 <span>EGP</span>", "p5-f1": "Platform updates & moderation", "p5-f2": "UI refreshes & layout tweaks", "p5-f3": "App maintenance & updates",
-                "order": "Order Now"
-            }
+        const themeToggle = document.getElementById('theme-toggle');
+        const langToggle = document.getElementById('lang-toggle');
+        const pageContent = document.getElementById('page-content');
+        const heroTitle = document.getElementById('hero-title');
+        const contactToggle = document.getElementById('contact-toggle');
+        const contactPanel = document.getElementById('contact-panel');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        
+        let currentLang = 'ar';
+        let currentTab = 'home';
+
+        const content = {
+            home: { ar: 'نحول فكرتك لحاجة تليق بإسمك •<br>مع 5 Hub Team شغلك مش بس هيتعمل... ده هيتعمل صح ❤️', en: 'We turn your idea into a need worthy of your name •<br>with 5 Hub Team, your work is not just going to be done... it will be done right ❤️' },
+            about: { ar: 'نحن شركة متخصصة في التسويق الإلكتروني وإدارة الصفحات الرسمية، بالإضافة إلى إنشاء التصاميم، المواقع الإلكترونية، والتطبيقات. لدينا شهادات معتمدة دوليًا، وخبرة متراكمة لأكثر من 5 سنوات في تقديم حلول رقمية احترافية وفعالة.', en: 'We are a company specialized in digital marketing and managing official pages, as well as creating designs, websites, and applications. We hold internationally accredited certificates and have over 5 years of experience in delivering professional digital solutions.' },
+            experience: { ar: 'لدينا خبرة واسعة تمتد لسنوات في تطوير البرمجيات المعقدة وتقديم استشارات تقنية احترافية.', en: 'We have years of extensive experience in complex software development and professional technical consulting.' },
+            offers: { ar: 'نوفر باقات متنوعة تناسب الشركات الناشئة والمؤسسات الكبيرة، تواصل معنا للحصول على عرض مخصص.', en: 'We offer various packages suitable for startups and large enterprises. Contact us for a custom quote.' }
         };
 
-        let currentLang = 'ar';
+        const aboutMarkup = {
+            ar: `
+                <div class="about-layout">
+                    <div class="about-card">
+                        <div class="about-badge">عن الشركة</div>
+                        <div class="about-title">شركة تسويق رقمية وإدارة محتوى احترافية</div>
+                        <div class="about-text">نحن شركة متخصصة في التسويق الإلكتروني، إدارة الصفحات الرسمية، وإنشاء التصاميم المميزة. نعمل على رفع مستوى الوجود الرقمي لعلامتك التجارية عبر استراتيجيات واضحة، محتوى ذكي، وتصاميم احترافية.</div>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-badge">خدماتنا</div>
+                        <div class="about-title">تصميم مواقع ويب وتطبيقات</div>
+                        <div class="about-text">نقوم بإنشاء مواقع إلكترونية متجاوبة، تطبيقات ذكية، ومنصات احترافية بأداء عالي وتجربة مستخدم ممتازة، مع اهتمام كبير بتفاصيل التصميم والتنفيذ.</div>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-badge">الخبرة</div>
+                        <div class="about-title">خبرة أكيدة وشهادات معتمدة</div>
+                        <div class="about-text">لدينا خبرة تجاوزت 5 سنوات في مجالات التسويق الرقمي، إدارة الصفحات، تصميم الواجهات، وتطوير الحلول الرقمية. كما نمتلك شهادات معتمدة دوليًا تثبت جودة العمل الاحترافي الذي نقدمه.</div>
+                    </div>
+                </div>
+            `,
+            en: `
+                <div class="about-layout">
+                    <div class="about-card">
+                        <div class="about-badge">About Us</div>
+                        <div class="about-title">Digital Marketing & Page Management Agency</div>
+                        <div class="about-text">We are a company specialized in digital marketing, managing official pages, and creating professional designs. We help brands grow online through clear strategies, smart content, and premium visual presentations.</div>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-badge">Our Services</div>
+                        <div class="about-title">Websites, Applications & Design</div>
+                        <div class="about-text">We build responsive websites, smart applications, and professional digital platforms with a strong focus on performance, usability, and outstanding design quality.</div>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-badge">Experience</div>
+                        <div class="about-title">International Certifications & Proven Expertise</div>
+                        <div class="about-text">We bring more than 5 years of hands-on experience in digital marketing, page management, UI design, and software solutions. We also hold internationally accredited certifications that reflect our commitment to excellence.</div>
+                    </div>
+                </div>
+            `
+        };
 
-        // Tab Switching Logic
-        function switchTab(event, tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
+        const experienceMarkup = {
+            ar: `
+                <div class="experience-layout">
+                    <div class="experience-card">
+                        <div class="experience-badge">خبراتنا</div>
+                        <div class="experience-title">تطوير حلول رقمية عالية الجودة</div>
+                        <div class="experience-text">من خلال سنوات من الخبرة، قمنا بتصميم وتنفيذ أعمال رقمية متنوعة في التسويق الإلكتروني، إدارة الصفحات، والواجهات الحديثة، مع اهتمام كبير بأداء المشاريع واحترافية التنفيذ، لتقديم تجربة رقمية قوية وموثوقة.</div>
+                        <div class="experience-stats">
+                            <div class="stat-box"><strong>5+</strong><span>سنوات خبرة</span></div>
+                            <div class="stat-box"><strong>50+</strong><span>مشاريع متنوعة</span></div>
+                            <div class="stat-box"><strong>20+</strong><span>شهادات ومعتمادات</span></div>
+                        </div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-badge">التخصصات</div>
+                        <div class="experience-title">إدارة الصفحات، التصاميم، والمواقع</div>
+                        <div class="experience-text">نعمل على تصميم هوية بصرية متكاملة، إدارة صفحات التواصل الاجتماعي، وبناء مواقع ويب وتطبيقات بطريقة احترافية تناسب مختلف الأعمال والسوق الرقمي، مع تركيز على التفاصيل والوضوح البصري.</div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-badge">النتائج</div>
+                        <div class="experience-title">حلول عملية وعلامات تجارية مميزة</div>
+                        <div class="experience-text">ترتكز خبرتنا على تحويل الأفكار إلى مشاريع عملية فعّالة، مع مقاييس واضحة للأداء، جودة التصميم، وسهولة تجربة المستخدم، لتقديم قيمة حقيقية لكل عميل.</div>
+                    </div>
+                </div>
+            `,
+            en: `
+                <div class="experience-layout">
+                    <div class="experience-card">
+                        <div class="experience-badge">Our Experience</div>
+                        <div class="experience-title">High-Quality Digital Solutions</div>
+                        <div class="experience-text">Through years of hands-on work, we have designed and delivered various digital projects in marketing, page management, and modern interfaces with a strong focus on quality, clarity, and professional execution.</div>
+                        <div class="experience-stats">
+                            <div class="stat-box"><strong>5+</strong><span>Years of experience</span></div>
+                            <div class="stat-box"><strong>50+</strong><span>Projects delivered</span></div>
+                            <div class="stat-box"><strong>20+</strong><span>Certifications</span></div>
+                        </div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-badge">Specialties</div>
+                        <div class="experience-title">Page Management, Branding & Web Development</div>
+                        <div class="experience-text">We design complete visual identities, manage social pages, and build professional websites and applications tailored to business needs, with strong attention to design clarity and user experience.</div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-badge">Results</div>
+                        <div class="experience-title">Practical Solutions & Strong Brand Presence</div>
+                        <div class="experience-text">Our expertise turns ideas into practical and measurable outcomes using clean design, strong performance, and customer-focused digital experiences.</div>
+                    </div>
+                </div>
+            `
+        };
 
-        // Language Translation Switcher
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            const htmlTag = document.documentElement;
-            const langBtn = document.getElementById('langBtn');
-            
-            if (currentLang === 'en') {
-                htmlTag.setAttribute('lang', 'en');
-                htmlTag.setAttribute('dir', 'ltr');
-                langBtn.textContent = 'العربية';
-            } else {
-                htmlTag.setAttribute('lang', 'ar');
-                htmlTag.setAttribute('dir', 'rtl');
-                langBtn.textContent = 'English';
-            }
+        const offersMarkup = {
+            ar: `
+                <div class="offers-layout">
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">الباكج الاول</div>
+                            <div class="offer-package">تصاميم</div>
+                        </div>
+                        <div class="offer-title">باقة التصاميم</div>
+                        <div class="offer-text">• تصاميم جاهزة و عصرية<br>• تنسيق الوان احترافي<br>• تسليم سريع علي في اي وقت كان</div>
+                        <div class="offer-price">1000 ج</div>
+                        <button type="button" class="offer-btn" data-package="باقة التصاميم">اطلب الان</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">الباكج الثاني</div>
+                            <div class="offer-package">إدارة الصفحات</div>
+                        </div>
+                        <div class="offer-title">باقة ادارة الصفحات</div>
+                        <div class="offer-text">• ادارة كامله للصفحة<br>• صناعة و تدبير المحتوي<br>• احصائيات يومية</div>
+                        <div class="offer-price">3000 ج</div>
+                        <button type="button" class="offer-btn" data-package="باقة ادارة الصفحات">اطلب الان</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">الباكج الثالث</div>
+                            <div class="offer-package">الانشاء و التصميم</div>
+                        </div>
+                        <div class="offer-title">باقة الانشاء و التصميم</div>
+                        <div class="offer-text">• بناء تطبيقات و مواقع ويب<br>• ضبط اعدادات و تنظيم تشغيل<br>• تحديثات مستمره طوال الخدمة</div>
+                        <div class="offer-price">5500 ج</div>
+                        <button type="button" class="offer-btn" data-package="باقة الانشاء و التصميم">اطلب الان</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">الباكج الرابع</div>
+                            <div class="offer-package">التفاعلات و الردود</div>
+                        </div>
+                        <div class="offer-title">باقة التفاعلات و الردود</div>
+                        <div class="offer-text">• تفاعل يومي علي كل منشور<br>• رد علي جميع المنصات<br>• شات بالذكاء الاصطناعي<br>• جاهزون للرد علي مدار 24 ساعه و خلال 60 ثانية</div>
+                        <div class="offer-price">2000 ج</div>
+                        <button type="button" class="offer-btn" data-package="باقة التفاعلات و الردود">اطلب الان</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">الباكج الخامس</div>
+                            <div class="offer-package">VIP</div>
+                        </div>
+                        <div class="offer-title">باقة VIP</div>
+                        <div class="offer-text">• ادارة و تنسيق متكامل<br>• تسويق واسع و قوي<br>• احصائيات يوميه كامله<br>• شات تفاعلي 24 ساعه</div>
+                        <div class="offer-price">9000 ج</div>
+                        <button type="button" class="offer-btn" data-package="باقة VIP">اطلب الان</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">الباكج السادس</div>
+                            <div class="offer-package">Custom</div>
+                        </div>
+                        <div class="offer-title">تقدر تعمل باكج خاص بيك</div>
+                        <div class="offer-text">• نعمل لك باقة مخصصة كاملة حسب متطلباتك<br>• نختار لك الخدمات المناسبة لعلامتك التجارية<br>• نديك حل احترافي ومرن يناسب ميزانيتك</div>
+                        <div class="offer-price">حسب الطلب</div>
+                        <button type="button" class="offer-btn" data-package="باكج مخصص">اطلب الان</button>
+                    </div>
+                </div>
+            `,
+            en: `
+                <div class="offers-layout">
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">Package One</div>
+                            <div class="offer-package">Designs</div>
+                        </div>
+                        <div class="offer-title">Design Package</div>
+                        <div class="offer-text">• Ready-made and modern designs<br>• Professional color coordination<br>• Fast delivery at any time</div>
+                        <div class="offer-price">1000 EGP</div>
+                        <button type="button" class="offer-btn" data-package="Design Package">Order Now</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">Package Two</div>
+                            <div class="offer-package">Page Management</div>
+                        </div>
+                        <div class="offer-title">Page Management Package</div>
+                        <div class="offer-text">• Full page management<br>• Content creation and planning<br>• Daily statistics</div>
+                        <div class="offer-price">3000 EGP</div>
+                        <button type="button" class="offer-btn" data-package="Page Management Package">Order Now</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">Package Three</div>
+                            <div class="offer-package">Development & Design</div>
+                        </div>
+                        <div class="offer-title">Development & Design Package</div>
+                        <div class="offer-text">• Build websites and applications<br>• Configure settings and manage operation<br>• Ongoing updates throughout the service</div>
+                        <div class="offer-price">5500 EGP</div>
+                        <button type="button" class="offer-btn" data-package="Development & Design Package">Order Now</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">Package Four</div>
+                            <div class="offer-package">Interactions & Replies</div>
+                        </div>
+                        <div class="offer-title">Interactions & Replies Package</div>
+                        <div class="offer-text">• Daily interaction on every post<br>• Replies across all platforms<br>• AI chat support<br>• Ready to respond 24/7 within 60 seconds</div>
+                        <div class="offer-price">2000 EGP</div>
+                        <button type="button" class="offer-btn" data-package="Interactions & Replies Package">Order Now</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">Package Five</div>
+                            <div class="offer-package">VIP</div>
+                        </div>
+                        <div class="offer-title">VIP Package</div>
+                        <div class="offer-text">• Full management and coordination<br>• Strong and wide marketing<br>• Complete daily statistics<br>• Interactive chat available 24/7</div>
+                        <div class="offer-price">9000 EGP</div>
+                        <button type="button" class="offer-btn" data-package="VIP Package">Order Now</button>
+                    </div>
+                    <div class="offer-card">
+                        <div class="offer-head">
+                            <div class="offer-badge">Package Six</div>
+                            <div class="offer-package">Custom</div>
+                        </div>
+                        <div class="offer-title">You Can Build Your Own Package</div>
+                        <div class="offer-text">• We create a fully customized package for your needs<br>• We choose the best services for your brand<br>• You get a flexible and professional solution that fits your budget</div>
+                        <div class="offer-price">Custom Price</div>
+                        <button type="button" class="offer-btn" data-package="Custom Package">Order Now</button>
+                    </div>
+                </div>
+            `
+        };
 
-            // Update DOM Elements
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
-            });
-        }
+        const projectMarkup = {
+            ar: `
+                <div class="text-right mb-3">
+                    <div class="text-2xl font-black text-blue-600 dark:text-blue-300">مشاريعنا</div>
+                    <p class="text-sm mt-1 text-slate-600 dark:text-slate-300">نعمل على أعمال برمجية وتصاميم احترافية بعناية عالية، مع تركيز على جودة الأداء، سهولة الاستخدام، وتناغم الألوان.</p>
+                </div>
+                <div class="projects-gallery">
+                    <button type="button" class="project-card" data-title="تصميم من صنعنا" data-text="واجهة ويب مصممة بعناية مع توازن بصري ممتاز، تجربة مستخدم سلسة، وألوان متناسقة تعكس هوية العلامة التجارية.">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" alt="برمجة مواقع">
+                        <div class="project-meta">
+                            <h3>تطوير واجهات احترافية</h3>
+                            <p>تصميم وتجهيز صفحات ويب حديثة، سريعة، وسهلة الاستخدام مع تجربة مستخدم ممتازة.</p>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="font-black mb-1">تصميم من صنعنا</div>
+                            <div>واجهة ويب مصممة بعناية مع توازن بصري ممتاز وتجربة مستخدم سلسة.</div>
+                        </div>
+                    </button>
+                    <button type="button" class="project-card" data-title="تصميم من صنعنا" data-text="هوية بصرية متكاملة تجمع بين التنسيق الواضح، توزيع العناصر، وتناسق الألوان لتقديم تجربة احترافية ومميزة.">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="تصميم واجهات">
+                        <div class="project-meta">
+                            <h3>هوية بصرية متكاملة</h3>
+                            <p>تصميم بصري متوازن يضمن تناسق الألوان، تنسيق المكونات، وبنية واضحة للعلامة التجارية.</p>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="font-black mb-1">تصميم من صنعنا</div>
+                            <div>هوية بصرية متكاملة تجمع بين التنسيق الواضح وتناسق الألوان في كل عنصر.</div>
+                        </div>
+                    </button>
+                    <button type="button" class="project-card" data-title="تصميم من صنعنا" data-text="خطة ألوان احترافية تجعل المشروع يبدو أنيقًا، متوازنًا، وذو هوية قوية ومميزة.">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%231f2937'/%3E%3Crect x='70' y='70' width='150' height='360' fill='%230ea5e9'/%3E%3Crect x='240' y='70' width='150' height='360' fill='%232563eb'/%3E%3Crect x='410' y='70' width='150' height='360' fill='%238b5cf6'/%3E%3Crect x='580' y='70' width='150' height='360' fill='%23f472b6'/%3E%3Ctext x='400' y='450' text-anchor='middle' font-family='Arial' font-size='34' fill='white' font-weight='700'%3EColor Palette%3C/text%3E%3C/svg%3E" alt="تنسيق ألوان">
+                        <div class="project-meta">
+                            <h3>تنسيق ألوان احترافي</h3>
+                            <p>اخترنا ألوانًا متوازنة تناسب كل مشروع وتمنحه هوية مميزة، مع تجربة بصريه جميلة وهادئة.</p>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="font-black mb-1">تصميم من صنعنا</div>
+                            <div>خطة ألوان احترافية تمنح المشروع مظهرًا أنيقًا ومتوازنًا وذو هوية واضحة.</div>
+                        </div>
+                    </button>
+                </div>
+            `,
+            en: `
+                <div class="text-left mb-3">
+                    <div class="text-2xl font-black text-blue-600 dark:text-blue-300">Projects</div>
+                    <p class="text-sm mt-1 text-slate-600 dark:text-slate-300">We create professional software and design work with a strong focus on performance, usability, and color harmony.</p>
+                </div>
+                <div class="projects-gallery">
+                    <button type="button" class="project-card" data-title="Designed by us" data-text="A carefully crafted web interface with visual balance, smooth user flow, and a refined brand style.">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" alt="Web development">
+                        <div class="project-meta">
+                            <h3>Professional UI Development</h3>
+                            <p>We build modern, responsive websites with polished interfaces and smooth user experiences.</p>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="font-black mb-1">Designed by us</div>
+                            <div>A polished web interface built with visual balance and a seamless user experience.</div>
+                        </div>
+                    </button>
+                    <button type="button" class="project-card" data-title="Designed by us" data-text="A complete visual identity that unifies layout, spacing, and colors into one cohesive premium experience.">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Design systems">
+                        <div class="project-meta">
+                            <h3>Complete Visual Identity</h3>
+                            <p>We craft consistent visual systems with clean alignment, balanced spacing, and refined branding.</p>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="font-black mb-1">Designed by us</div>
+                            <div>A complete visual identity that unifies layout, spacing, and colors into one polished experience.</div>
+                        </div>
+                    </button>
+                    <button type="button" class="project-card" data-title="Designed by us" data-text="A professional color strategy that makes the project feel elegant, modern, and instantly recognizable.">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%231f2937'/%3E%3Crect x='70' y='70' width='150' height='360' fill='%230ea5e9'/%3E%3Crect x='240' y='70' width='150' height='360' fill='%232563eb'/%3E%3Crect x='410' y='70' width='150' height='360' fill='%238b5cf6'/%3E%3Crect x='580' y='70' width='150' height='360' fill='%23f472b6'/%3E%3Ctext x='400' y='450' text-anchor='middle' font-family='Arial' font-size='34' fill='white' font-weight='700'%3EColor Palette%3C/text%3E%3C/svg%3E" alt="Color harmony">
+                        <div class="project-meta">
+                            <h3>Refined Color Harmony</h3>
+                            <p>Our design approach uses professional color palettes that make every project feel modern and distinctive.</p>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="font-black mb-1">Designed by us</div>
+                            <div>A refined color strategy that makes the project feel elegant, modern, and memorable.</div>
+                        </div>
+                    </button>
+                </div>
+            `
+        };
 
-        // Light / Dark Theme Toggler
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            
-            const themeBtn = document.getElementById('themeBtn');
-            if (targetTheme === 'light') {
-                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-            } else {
-                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-            }
-        }
-
-        // Toggle Floating Action Button
-        function toggleFab() {
-            const fabContainer = document.getElementById('fabContainer');
-            fabContainer.classList.toggle('active');
-        }
-
-        // Close FAB menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const fabContainer = document.getElementById('fabContainer');
-            if (!fabContainer.contains(event.target)) {
-                fabContainer.classList.remove('active');
-            }
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            themeToggle.innerText = isDark ? '🌙' : '☀️';
         });
 
-        // WhatsApp Direct Checkout Link
-        function redirectToWhatsApp(packageName) {
-            const phone = "201130063325";
-            const text = encodeURIComponent(`مرحباً 5 HUB، أود الاستفسار عن/طلب: [${packageName}]`);
-            window.open(`https://wa.me/${201556020133}?text=${text}`, '_blank');
+        contactToggle.addEventListener('click', () => {
+            contactPanel.classList.toggle('open');
+        });
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            langToggle.innerText = currentLang === 'ar' ? 'EN' : 'AR';
+            updateUI();
+        });
+
+        function updateUI() {
+            tabBtns.forEach(btn => btn.innerText = currentLang === 'ar' ? btn.dataset.ar : btn.dataset.en);
+            heroTitle.classList.toggle('hidden', currentTab !== 'home');
+            pageContent.classList.add('fade-in');
+            setTimeout(() => pageContent.classList.remove('fade-in'), 400);
+
+            if (currentTab === 'home') {
+                pageContent.innerHTML = `
+                    <div class="text-center flex flex-col items-center justify-center gap-3 min-h-[180px] sm:min-h-[220px]">
+                        <div class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">5HUB</div>
+                        <div class="text-base sm:text-lg leading-8 text-slate-700 dark:text-slate-200 font-bold max-w-2xl mx-auto">${content[currentTab][currentLang]}</div>
+                    </div>
+                `;
+            } else if (currentTab === 'about') {
+                pageContent.innerHTML = aboutMarkup[currentLang];
+            } else if (currentTab === 'experience') {
+                pageContent.innerHTML = experienceMarkup[currentLang];
+            } else if (currentTab === 'projects') {
+                pageContent.innerHTML = projectMarkup[currentLang];
+                const projectCards = pageContent.querySelectorAll('.project-card');
+                projectCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        projectCards.forEach(item => item.classList.remove('open'));
+                        card.classList.toggle('open');
+                    });
+                });
+            } else if (currentTab === 'offers') {
+                pageContent.innerHTML = offersMarkup[currentLang];
+                const offerButtons = pageContent.querySelectorAll('.offer-btn');
+                offerButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const packageName = button.dataset.package || 'Package';
+                        const message = currentLang === 'ar'
+                            ? `اهلا شركة 5HUB 👋\n\nاريد طلب ${packageName} 😊\n\nشكرا 🌹`
+                            : `Hello 5HUB 👋\n\nI would like to order the ${packageName} package 😊\n\nThank you 🌹`;
+                        window.open(`https://wa.me/201130063325?text=${encodeURIComponent(message)}`, '_blank');
+                    });
+                });
+            } else {
+                pageContent.innerText = content[currentTab][currentLang];
+            }
         }
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabBtns.forEach(b => b.classList.remove('active-tab'));
+                this.classList.add('active-tab');
+                currentTab = this.dataset.key;
+                updateUI();
+            });
+        });
+        updateUI();
     </script>
 </body>
 </html>
