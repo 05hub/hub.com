@@ -441,14 +441,33 @@
                 font-size: clamp(2.7rem, 12vw, 4rem);
                 letter-spacing: 0.04em;
             }
+            main {
+                min-height: calc(100vh - 10rem);
+                justify-content: center;
+            }
             #page-content {
-                font-size: 1rem;
-                min-height: 160px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 1.15rem;
+                line-height: 1.9;
+                min-height: 220px;
                 padding: 1rem;
             }
         }
         @media (min-width: 768px) {
+            main {
+                min-height: calc(100vh - 11rem);
+                justify-content: center;
+            }
             #page-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 1.28rem;
+                line-height: 1.9;
                 padding: 1.5rem;
             }
         }
@@ -481,7 +500,7 @@
         </div>
     </div>
 
-    <main class="max-w-5xl mx-auto w-full flex-grow text-center mt-6 sm:mt-10 pb-6">
+    <main class="max-w-5xl mx-auto w-full flex-grow text-center mt-6 sm:mt-10 pb-6 flex flex-col justify-center">
         <h1 id="hero-title" class="hero-title mb-6 sm:mb-8">5HUB</h1>
         <div id="page-content" class="w-full max-w-full text-start text-lg sm:text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed p-4 sm:p-6 bg-white/80 dark:bg-slate-900/80 rounded-[28px] border border-slate-200 dark:border-slate-700 shadow-[0_20px_55px_rgba(15,23,42,0.12)] backdrop-blur-md min-h-[160px] sm:min-h-[220px]"></div>
     </main>
